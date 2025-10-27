@@ -2,9 +2,12 @@
   <div class="bg-gray-800 border-b border-gray-700">
     <!-- Main Menu -->
     <div class="flex items-center px-2 py-1 text-xs">
-      <NuxtLink to="/" class="px-3 py-1 text-gray-300 hover:bg-gray-700 rounded">
+      <button 
+        @click="handleExit" 
+        class="px-3 py-1 text-gray-300 hover:bg-gray-700 rounded"
+      >
         나가기
-      </NuxtLink>
+      </button>
       
       <!-- File Menu with Dropdown -->
       <div class="relative" @mouseenter="showFileMenu = true" @mouseleave="showFileMenu = false">
@@ -113,10 +116,22 @@
       </div>
     </div>
   </div>
+
+  <!-- 나가기 확인 모달 -->
+  <ConfirmModal
+    :is-visible="showExitModal"
+    title="나가기 확인"
+    message="작업 중인 내용이 저장되지 않을 수 있습니다.&#10;정말로 나가시겠습니까?"
+    confirm-text="나가기"
+    cancel-text="취소"
+    @confirm="confirmExit"
+    @cancel="cancelExit"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import ConfirmModal from '~/components/ui/ConfirmModal.vue'
 
 const showFileMenu = ref(false)
 const showEditMenu = ref(false)
@@ -125,4 +140,21 @@ const showInsertMenu = ref(false)
 const showProjectMenu = ref(false)
 const showToolsMenu = ref(false)
 const showHelpMenu = ref(false)
+const showExitModal = ref(false)
+
+const handleExit = () => {
+  // 커스텀 확인 모달 표시
+  showExitModal.value = true
+}
+
+const confirmExit = () => {
+  // 확인을 클릭한 경우 홈페이지로 이동
+  showExitModal.value = false
+  navigateTo('/')
+}
+
+const cancelExit = () => {
+  // 취소를 클릭한 경우 모달만 닫기
+  showExitModal.value = false
+}
 </script>

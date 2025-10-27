@@ -8,6 +8,7 @@
         @zoom-in="zoomIn"
         @zoom-out="zoomOut"
         @fit-to-screen="fitToScreen"
+        @toggle-grid="toggleGrid"
         @open-library="showComponentLibrary = true"
         @open-project-settings="showProjectSettings = true"
         @toggle-left-panel="toggleLeftPanel"
@@ -296,6 +297,7 @@ const handleCanvasInitialized = async (container: HTMLDivElement) => {
     fitToScreen: fitToScreenCanvas,
     deleteSelected: deleteSelectedCanvas,
     clearSelection: clearSelectionCanvas,
+    toggleGrid: toggleGridCanvas,
     setupEventHandlers,
     updatePageSize: updatePageSizeCanvas,
     updateProjectInfo: updateProjectInfoCanvas
@@ -310,6 +312,7 @@ const handleCanvasInitialized = async (container: HTMLDivElement) => {
     fitToScreen: fitToScreenCanvas,
     deleteSelected: deleteSelectedCanvas,
     clearSelection: clearSelectionCanvas,
+    toggleGrid: toggleGridCanvas,
     updatePageSize: updatePageSizeCanvas,
     updateProjectInfo: updateProjectInfoCanvas
   }
@@ -376,6 +379,12 @@ const deleteSelected = () => {
   }
 }
 
+const toggleGrid = () => {
+  if (editorComposable) {
+    editorComposable.toggleGrid()
+  }
+}
+
 const runSimulation = () => {
   console.log('Running simulation...')
   // TODO: Implement simulation
@@ -391,24 +400,24 @@ const handleStandardChange = (standard: string) => {
   projectSettings.value.electricalStandard = standard
 }
 
-const handleSaveProjectSettings = (settings: ProjectSettings) => {
+const handleSaveProjectSettings = async (settings: ProjectSettings) => {
   console.log('Saving project settings:', settings)
   projectSettings.value = { ...settings }
   projectName.value = settings.name
 
   // Update drawing template with new project info
   if (editorComposable && editorComposable.updateProjectInfo) {
-    editorComposable.updateProjectInfo(settings)
+    await editorComposable.updateProjectInfo(settings)
   }
   // TODO: Save to backend/localStorage
 }
 
-const handlePageSizeChange = (size: string) => {
+const handlePageSizeChange = async (size: string) => {
   console.log('Page size changed:', size)
 
   // Update canvas size and redraw template
   if (editorComposable && editorComposable.updatePageSize) {
-    editorComposable.updatePageSize(size, projectSettings.value)
+    await editorComposable.updatePageSize(size, projectSettings.value)
   }
 }
 

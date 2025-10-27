@@ -7,6 +7,58 @@ export const useCircuitEditor = (containerRef: Ref<HTMLDivElement | null>, proje
   let graph: any = null
   let paper: any = null
   let currentPageSize: string = 'A3'
+  let isGridVisible: boolean = true
+
+  // Draw dot grid on the paper
+  const drawDotGrid = (paper: any) => {
+    const gridSize = 10
+    const dotRadius = 0.8
+    const dotColor = '#d1d5db' // Light gray color
+    
+    // Remove existing dot grid if any
+    const existingDots = paper.el.querySelectorAll('.dot-grid')
+    existingDots.forEach((dot: any) => dot.remove())
+
+    // If grid is not visible, just return after removing existing dots
+    if (!isGridVisible) return
+
+    // Get paper dimensions
+    const paperWidth = paper.options.width
+    const paperHeight = paper.options.height
+
+    // Create SVG group for dots
+    const svgEl = paper.el.querySelector('svg')
+    if (!svgEl) return
+
+    const dotsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+    dotsGroup.setAttribute('class', 'dot-grid')
+    
+    // Insert dots group as first child so it appears behind other elements
+    svgEl.insertBefore(dotsGroup, svgEl.firstChild)
+
+    // Draw dots in a grid pattern
+    for (let x = gridSize; x < paperWidth; x += gridSize) {
+      for (let y = gridSize; y < paperHeight; y += gridSize) {
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+        dot.setAttribute('cx', x.toString())
+        dot.setAttribute('cy', y.toString())
+        dot.setAttribute('r', dotRadius.toString())
+        dot.setAttribute('fill', dotColor)
+        dot.setAttribute('opacity', '0.5')
+        dot.setAttribute('class', 'grid-dot')
+        dotsGroup.appendChild(dot)
+      }
+    }
+  }
+
+  // Toggle grid visibility
+  const toggleGrid = () => {
+    isGridVisible = !isGridVisible
+    if (paper) {
+      drawDotGrid(paper)
+    }
+    return isGridVisible
+  }
 
   const initialize = async () => {
     if (!containerRef.value) return
@@ -27,7 +79,7 @@ export const useCircuitEditor = (containerRef: Ref<HTMLDivElement | null>, proje
         width: 1587,  // A3 width
         height: 1123, // A3 height
         gridSize: 10,
-        drawGrid: false, // Disable default grid, we'll draw custom one
+        drawGrid: false, // Disable default grid, we'll draw custom dot grid
         background: {
           color: 'white'
         },
@@ -44,11 +96,14 @@ export const useCircuitEditor = (containerRef: Ref<HTMLDivElement | null>, proje
         snapLinks: { radius: 20 }
       })
 
-      // Draw the template
-      const { createCompleteTemplate } = useDrawingTemplate()
-      createCompleteTemplate(joint, graph, currentPageSize, projectInfo)
+      // Draw custom dot grid
+      drawDotGrid(paper)
 
-      console.log('Circuit editor initialized with drawing template')
+      // Draw the template from XML
+      const { createTemplateFromXML } = useDrawingTemplate()
+      await createTemplateFromXML(joint, graph, currentPageSize, projectInfo)
+
+      console.log('Circuit editor initialized with XML drawing template')
 
       return { joint, graph, paper }
     } catch (error) {
@@ -356,12 +411,12 @@ export const useCircuitEditor = (containerRef: Ref<HTMLDivElement | null>, proje
     })
   }
 
-  const updatePageSize = (pageSize: string, projectInfo?: any) => {
+  const updatePageSize = async (pageSize: string, projectInfo?: any) => {
     if (!joint || !graph) return
 
     currentPageSize = pageSize
-    const { createCompleteTemplate } = useDrawingTemplate()
-    createCompleteTemplate(joint, graph, pageSize, projectInfo)
+    const { createTemplateFromXML } = useDrawingTemplate()
+    await createTemplateFromXML(joint, graph, pageSize, projectInfo)
 
     // Update paper size
     const sizes: Record<string, { width: number; height: number }> = {
@@ -373,13 +428,16 @@ export const useCircuitEditor = (containerRef: Ref<HTMLDivElement | null>, proje
 
     const { width, height } = sizes[pageSize] || sizes.A3
     paper.setDimensions(width, height)
+    
+    // Redraw dot grid for new dimensions
+    drawDotGrid(paper)
   }
 
-  const updateProjectInfo = (projectInfo: any) => {
+  const updateProjectInfo = async (projectInfo: any) => {
     if (!joint || !graph) return
 
-    const { createCompleteTemplate } = useDrawingTemplate()
-    createCompleteTemplate(joint, graph, currentPageSize, projectInfo)
+    const { createTemplateFromXML } = useDrawingTemplate()
+    await createTemplateFromXML(joint, graph, currentPageSize, projectInfo)
   }
 
   return {
@@ -392,6 +450,7 @@ export const useCircuitEditor = (containerRef: Ref<HTMLDivElement | null>, proje
     fitToScreen,
     deleteSelected,
     clearSelection,
+    toggleGrid,
     setupEventHandlers,
     updatePageSize,
     updateProjectInfo,

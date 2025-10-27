@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<drawing-template>
+  <page-info>
+    <size>A3</size>
+    <width>1587</width>
+    <height>1123</height>
+    <margin>20</margin>
+  </page-info>
+  
+  <borders>
+    <!-- Outer border -->
+    <rectangle>
+      <position x="20" y="20" />
+      <size width="1547" height="1083" />
+      <style stroke="#000000" stroke-width="2" fill="none" />
+      <selectable>false</selectable>
+    </rectangle>
+    
+    <!-- Inner border -->
+    <rectangle>
+      <position x="30" y="30" />
+      <size width="1527" height="1063" />
+      <style stroke="#000000" stroke-width="1" fill="none" />
+      <selectable>false</selectable>
+    </rectangle>
+  </borders>
+  
+  <zone-markers>
+    <!-- Horizontal zone markers (A, B, C, ...) -->
+    <zones type="horizontal" start="A" spacing="150" margin="30">
+      <text-style font-size="12" font-weight="bold" fill="#000000" />
+    </zones>
+    
+    <!-- Vertical zone markers (1, 2, 3, ...) -->
+    <zones type="vertical" start="1" spacing="150" margin="30">
+      <text-style font-size="12" font-weight="bold" fill="#000000" />
+    </zones>
+  </zone-markers>
+  
+  <title-block>
+    <position x="1167" y="913" />
+    <size width="400" height="180" />
+    
+    <!-- Title block border -->
+    <border stroke="#000000" stroke-width="2" fill="#f8f8f8" />
+    
+    <!-- Title section -->
+    <title-section>
+      <position x="0" y="0" />
+      <size width="400" height="40" />
+      <border stroke="#000000" stroke-width="1" fill="#e8e8e8" />
+      <text placeholder="프로젝트명" font-size="18" font-weight="bold" />
+    </title-section>
+    
+    <!-- Information fields -->
+    <fields>
+      <field>
+        <label>설계자:</label>
+        <position x="0" y="50" />
+        <label-width>120</label-width>
+        <value-width>280</value-width>
+        <height>26</height>
+        <placeholder></placeholder>
+      </field>
+      
+      <field>
+        <label>회사:</label>
+        <position x="0" y="76" />
+        <label-width>120</label-width>
+        <value-width>280</value-width>
+        <height>26</height>
+        <placeholder></placeholder>
+      </field>
+      
+      <field>
+        <label>프로젝트 번호:</label>
+        <position x="0" y="102" />
+        <label-width>120</label-width>
+        <value-width>280</value-width>
+        <height>26</height>
+        <placeholder></placeholder>
+      </field>
+      
+      <field>
+        <label>도면 번호:</label>
+        <position x="0" y="128" />
+        <label-width>120</label-width>
+        <value-width>280</value-width>
+        <height>26</height>
+        <placeholder>D-001</placeholder>
+      </field>
+      
+      <field>
+        <label>버전:</label>
+        <position x="0" y="154" />
+        <label-width>120</label-width>
+        <value-width>280</value-width>
+        <height>26</height>
+        <placeholder>1.0</placeholder>
+      </field>
+    </fields>
+  </title-block>
+</drawing-template>
