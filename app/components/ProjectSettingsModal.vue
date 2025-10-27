@@ -12,7 +12,7 @@
         ></div>
 
         <!-- Modal -->
-        <div class="relative bg-gray-800 rounded-lg shadow-2xl w-[700px] max-h-[90vh] overflow-hidden">
+        <div class="modal-content relative bg-gray-800 rounded-lg shadow-2xl w-[700px] max-h-[90vh] overflow-hidden">
       <!-- Header -->
       <div class="flex items-center justify-between px-6 py-4 border-b border-gray-700">
         <div class="flex items-center gap-3">

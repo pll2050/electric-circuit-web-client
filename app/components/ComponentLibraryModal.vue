@@ -12,7 +12,7 @@
         ></div>
 
         <!-- Modal -->
-        <div class="relative w-[1000px] h-[700px] bg-gray-800 rounded-lg shadow-2xl flex flex-col">
+        <div class="modal-content relative w-[1000px] h-[700px] bg-gray-800 rounded-lg shadow-2xl flex flex-col">
           <!-- Modal Header -->
           <div class="flex items-center justify-between px-4 py-3 bg-gray-750 border-b border-gray-700 rounded-t-lg">
             <div class="flex items-center gap-3">

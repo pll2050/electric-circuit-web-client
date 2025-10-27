@@ -295,6 +295,7 @@ const handleCanvasInitialized = async (container: HTMLDivElement) => {
     setZoom: setZoomCanvas,
     fitToScreen: fitToScreenCanvas,
     deleteSelected: deleteSelectedCanvas,
+    clearSelection: clearSelectionCanvas,
     setupEventHandlers,
     updatePageSize: updatePageSizeCanvas,
     updateProjectInfo: updateProjectInfoCanvas
@@ -308,12 +309,30 @@ const handleCanvasInitialized = async (container: HTMLDivElement) => {
     setZoom: setZoomCanvas,
     fitToScreen: fitToScreenCanvas,
     deleteSelected: deleteSelectedCanvas,
+    clearSelection: clearSelectionCanvas,
     updatePageSize: updatePageSizeCanvas,
     updateProjectInfo: updateProjectInfoCanvas
   }
 
   await initialize()
   setupEventHandlers()
+  
+  // Setup keyboard shortcuts
+  const { useEditorKeyboardShortcuts } = await import('~/composables/useKeyboardShortcuts')
+  useEditorKeyboardShortcuts({
+    deleteSelected: () => editorComposable?.deleteSelected(),
+    clearSelection: () => editorComposable?.clearSelection(),
+    undo: () => console.log('Undo - not implemented yet'),
+    redo: () => console.log('Redo - not implemented yet'),
+    selectAll: () => console.log('Select all - not implemented yet'),
+    copy: () => console.log('Copy - not implemented yet'),
+    paste: () => console.log('Paste - not implemented yet'),
+    cut: () => console.log('Cut - not implemented yet'),
+    save: () => console.log('Save - not implemented yet'),
+    zoomIn: () => zoomIn(),
+    zoomOut: () => zoomOut(),
+    fitToScreen: () => fitToScreen()
+  })
 }
 
 const addComponent = (type: string) => {

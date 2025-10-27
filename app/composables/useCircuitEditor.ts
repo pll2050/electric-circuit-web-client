@@ -234,6 +234,19 @@ export const useCircuitEditor = (containerRef: Ref<HTMLDivElement | null>, proje
     }
   }
 
+  const clearSelection = () => {
+    if (!graph || !paper) return
+
+    const cells = graph.getCells()
+    cells.forEach((cell: any) => {
+      const view = paper.findViewByModel(cell)
+      if (view && view.el.classList.contains('selected')) {
+        view.unhighlight()
+        view.el.classList.remove('selected')
+      }
+    })
+  }
+
   const setupEventHandlers = () => {
     if (!paper) return
 
@@ -378,6 +391,7 @@ export const useCircuitEditor = (containerRef: Ref<HTMLDivElement | null>, proje
     setZoom,
     fitToScreen,
     deleteSelected,
+    clearSelection,
     setupEventHandlers,
     updatePageSize,
     updateProjectInfo,
