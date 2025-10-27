@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-library>
+  <component type="contactor" name="접촉기" symbol="KM">
+    <basic-info>
+      <description>IEC 60617-07-17 표준 접촉기</description>
+      <part-number>MC-25a-AC24V</part-number>
+      <manufacturer>LS ELECTRIC</manufacturer>
+      <series>MC 시리즈</series>
+      <category>전자접촉기</category>
+      <subcategory>3극 접촉기</subcategory>
+    </basic-info>
+    
+    <electrical-specs>
+      <coil-voltage unit="V">24</coil-voltage>
+      <coil-power unit="VA">3.5</coil-power>
+      <main-contact-rating unit="A">25</main-contact-rating>
+      <aux-contact-rating unit="A">6</aux-contact-rating>
+      <rated-voltage unit="V">660</rated-voltage>
+      <short-circuit-capacity unit="kA">100</short-circuit-capacity>
+      <utilization-category>AC-3</utilization-category>
+      <operating-temperature min="-25" max="60" unit="°C"/>
+    </electrical-specs>
+    
+    <mechanical-specs>
+      <contact-arrangement>3NO + 1NC</contact-arrangement>
+      <terminal-type>나사형 단자</terminal-type>
+      <mounting-type>DIN 레일 / 나사 고정</mounting-type>
+      <operate-time unit="ms">15</operate-time>
+      <release-time unit="ms">8</release-time>
+      <mechanical-life unit="cycles">10000000</mechanical-life>
+      <electrical-life unit="cycles">500000</electrical-life>
+    </mechanical-specs>
+    
+    <dimensions width="120" height="100" depth="86" unit="mm"/>
+    
+    <ports>
+      <port id="coil1" type="input" x="5" y="75" label="A1" terminal="A1 단자"/>
+      <port id="coil2" type="input" x="5" y="85" label="A2" terminal="A2 단자"/>
+      <port id="l1" type="input" x="10" y="20" label="L1" terminal="1L1"/>
+      <port id="l2" type="input" x="40" y="20" label="L2" terminal="3L2"/>
+      <port id="l3" type="input" x="70" y="20" label="L3" terminal="5L3"/>
+      <port id="t1" type="output" x="10" y="40" label="T1" terminal="2T1"/>
+      <port id="t2" type="output" x="40" y="40" label="T2" terminal="4T2"/>
+      <port id="t3" type="output" x="70" y="40" label="T3" terminal="6T3"/>
+      <port id="aux_nc1" type="output" x="90" y="60" label="95" terminal="95"/>
+      <port id="aux_nc2" type="output" x="115" y="70" label="96" terminal="96"/>
+    </ports>
+    
+    <certifications>
+      <certification standard="KS" number="C4504"/>
+      <certification standard="IEC" number="60947-4-1"/>
+      <certification standard="UL" number="508"/>
+      <certification standard="CE" marking="true"/>
+    </certifications>
+    <drawing>
+      <rectangle x="15" y="70" width="35" height="20" stroke="black" stroke-width="2" fill="none" rx="3"/>
+      <text x="32.5" y="85" text-anchor="middle" font-size="10">KM</text>
+      
+      <!-- L1-T1 접점 -->
+      <circle cx="20" cy="20" r="2" stroke="black" fill="none"/>
+      <circle cx="20" cy="40" r="2" stroke="black" fill="none"/>
+      <line x1="20" y1="20" x2="20" y2="35" stroke="black" stroke-width="2"/>
+      
+      <!-- L2-T2 접점 -->
+      <circle cx="50" cy="20" r="2" stroke="black" fill="none"/>
+      <circle cx="50" cy="40" r="2" stroke="black" fill="none"/>
+      <line x1="50" y1="20" x2="50" y2="35" stroke="black" stroke-width="2"/>
+      
+      <!-- L3-T3 접점 -->
+      <circle cx="80" cy="20" r="2" stroke="black" fill="none"/>
+      <circle cx="80" cy="40" r="2" stroke="black" fill="none"/>
+      <line x1="80" y1="20" x2="80" y2="35" stroke="black" stroke-width="2"/>
+      
+      <!-- 보조접점 NC -->
+      <circle cx="100" cy="60" r="2" stroke="black" fill="none"/>
+      <circle cx="115" cy="60" r="2" stroke="black" fill="none"/>
+      <line x1="100" y1="60" x2="110" y2="60" stroke="black" stroke-width="2"/>
+      <line x1="110" y1="60" x2="115" y2="55" stroke="black" stroke-width="2"/>
+      
+      <!-- 동작 연결선 -->
+      <line x1="50" y1="70" x2="50" y2="50" stroke="black" stroke-dasharray="2,2"/>
+      <line x1="50" y1="50" x2="90" y2="50" stroke="black" stroke-dasharray="2,2"/>
+      <line x1="90" y1="50" x2="90" y2="60" stroke="black" stroke-dasharray="2,2"/>
+    </drawing>
+  </component>
+</component-library>

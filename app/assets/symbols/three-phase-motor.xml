@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-library>
+  <component type="three-phase-motor" name="3상 모터" symbol="M">
+    <basic-info>
+      <description>IEC 60617-07-13 표준 3상 모터</description>
+      <part-number>YE3-80M1-2</part-number>
+      <manufacturer>현대전기</manufacturer>
+      <series>YE3 고효율 시리즈</series>
+      <category>3상 유도전동기</category>
+      <subcategory>고효율 프리미엄 모터</subcategory>
+    </basic-info>
+    
+    <electrical-specs>
+      <rated-power unit="kW">1.1</rated-power>
+      <rated-voltage unit="V">380</rated-voltage>
+      <rated-current unit="A">2.3</rated-current>
+      <rated-frequency unit="Hz">60</rated-frequency>
+      <rated-speed unit="rpm">3470</rated-speed>
+      <efficiency unit="%">82.7</efficiency>
+      <power-factor>0.83</power-factor>
+      <starting-current unit="A">13.8</starting-current>
+      <connection-type>Star/Delta</connection-type>
+      <insulation-class>F</insulation-class>
+      <protection-class>IP55</protection-class>
+    </electrical-specs>
+    
+    <mechanical-specs>
+      <frame-size>80M</frame-size>
+      <mounting-type>B3 (발 부착형)</mounting-type>
+      <bearing-type>볼 베어링</bearing-type>
+      <cooling-method>IC411 (외부 팬 냉각)</cooling-method>
+      <operating-temperature min="-15" max="40" unit="°C"/>
+      <noise-level unit="dB">58</noise-level>
+      <weight unit="kg">13.5</weight>
+    </mechanical-specs>
+    
+    <dimensions width="120" height="100" length="285" unit="mm"/>
+    
+    <ports>
+      <port id="u-phase" type="input" x="40" y="15" label="U" terminal="U1"/>
+      <port id="v-phase" type="input" x="60" y="15" label="V" terminal="V1"/>
+      <port id="w-phase" type="input" x="80" y="15" label="W" terminal="W1"/>
+      <port id="ground" type="ground" x="60" y="90" label="PE" terminal="접지 단자"/>
+    </ports>
+    
+    <certifications>
+      <certification standard="KS" number="C4201"/>
+      <certification standard="IEC" number="60034-1"/>
+      <certification standard="효율등급" number="1등급"/>
+      <certification standard="KC" number="R-REM-HMC-YE3-80M1-2"/>
+    </certifications>
+    <drawing>
+      <circle cx="60" cy="50" r="30" stroke="black" stroke-width="2" fill="none"/>
+      <text x="60" y="45" text-anchor="middle" font-size="12" font-weight="bold">3~</text>
+      <text x="60" y="60" text-anchor="middle" font-size="12" font-weight="bold">M</text>
+      <line x1="40" y1="15" x2="40" y2="25" stroke="black" stroke-width="1.5"/>
+      <line x1="60" y1="15" x2="60" y2="25" stroke="black" stroke-width="1.5"/>
+      <line x1="80" y1="15" x2="80" y2="25" stroke="black" stroke-width="1.5"/>
+      <line x1="60" y1="85" x2="60" y2="90" stroke="black" stroke-width="1.5"/>
+      <line x1="55" y1="82" x2="65" y2="82" stroke="black" stroke-width="2"/>
+      <line x1="57" y1="84" x2="63" y2="84" stroke="black" stroke-width="1.5"/>
+      <line x1="59" y1="86" x2="61" y2="86" stroke="black" stroke-width="1"/>
+      <path d="M 45 40 A 12 12 0 0 1 75 40" stroke="#666" fill="none" marker-end="arrowhead"/>
+      <rectangle x="35" y="20" width="50" height="8" stroke="black" stroke-dasharray="2,2" fill="none"/>
+    </drawing>
+  </component>
+</component-library>

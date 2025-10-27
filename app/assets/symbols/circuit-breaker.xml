@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-library>
+  <component type="circuit-breaker" name="차단기" symbol="CB">
+    <basic-info>
+      <description>IEC 60617-07-05 표준 차단기</description>
+      <part-number>BKN-63C10</part-number>
+      <manufacturer>LS ELECTRIC</manufacturer>
+      <series>BKN 시리즈</series>
+      <category>배선용차단기</category>
+      <subcategory>소형차단기</subcategory>
+    </basic-info>
+    
+    <electrical-specs>
+      <rated-current unit="A">63</rated-current>
+      <rated-voltage unit="V">240</rated-voltage>
+      <breaking-capacity unit="kA">6</breaking-capacity>
+      <short-circuit-capacity unit="kA">6</short-circuit-capacity>
+      <insulation-voltage unit="V">500</insulation-voltage>
+      <operating-temperature min="-25" max="70" unit="°C"/>
+      <trip-curve>C</trip-curve>
+      <pole-count>1</pole-count>
+    </electrical-specs>
+    
+    <mechanical-specs>
+      <terminal-type>나사형 단자</terminal-type>
+      <mounting-type>DIN 레일</mounting-type>
+      <wire-size min="1.5" max="16" unit="mm²"/>
+      <mechanical-life unit="cycles">20000</mechanical-life>
+      <electrical-life unit="cycles">8000</electrical-life>
+      <operating-force unit="N">30</operating-force>
+    </mechanical-specs>
+    
+    <dimensions width="100" height="80" depth="78.5" unit="mm"/>
+    
+    <ports>
+      <port id="input" type="input" x="10" y="40" label="IN" terminal="상부 단자"/>
+      <port id="output" type="output" x="90" y="40" label="OUT" terminal="하부 단자"/>
+    </ports>
+    
+    <certifications>
+      <certification standard="KS" number="C4613"/>
+      <certification standard="IEC" number="60898-1"/>
+      <certification standard="CB" number="KTL-2019-0123"/>
+    </certifications>
+    <drawing>
+      <rectangle x="30" y="25" width="40" height="30" stroke="black" stroke-width="2" fill="none" rx="4"/>
+      <line x1="40" y1="35" x2="60" y2="35" stroke="black" stroke-width="1.5"/>
+      <line x1="40" y1="45" x2="60" y2="45" stroke="black" stroke-width="1.5"/>
+      <path d="M 35 30 Q 40 25 45 30" stroke="black" fill="none"/>
+      <path d="M 55 50 Q 60 55 65 50" stroke="black" fill="none"/>
+      <line x1="50" y1="25" x2="50" y2="18" stroke="black" stroke-width="1.5"/>
+      <polygon points="48,16 50,12 52,16" fill="black"/>
+      <text x="50" y="70" text-anchor="middle" font-size="10">CB</text>
+      <text x="50" y="62" text-anchor="middle" font-size="8">63A</text>
+    </drawing>
+  </component>
+</component-library>

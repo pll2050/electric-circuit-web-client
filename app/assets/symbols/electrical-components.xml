@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<electrical-components xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata>
+    <title>IEC 60617 표준 전기 기호 라이브러리</title>
+    <version>1.0</version>
+    <created>2025-10-27</created>
+    <standard>IEC 60617</standard>
+  </metadata>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<electrical-components xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata>
+    <title>IEC 60617 표준 전기 기호 라이브러리</title>
+    <version>1.0</version>
+    <created>2025-10-27</created>
+    <standard>IEC 60617</standard>
+    <author>전기회로 편집기</author>
+    <license>MIT</license>
+  </metadata>
+
+  <!-- 릴레이 -->
+  <component type="relay" name="릴레이" symbol="K" iec-reference="IEC 60617-07-17">
+    <basic-info>
+      <part-number>MY2N-J</part-number>
+      <manufacturer>OMRON</manufacturer>
+      <series>MY 시리즈</series>
+      <category>제어계전기</category>
+      <datasheet-url>https://www.omron.com/ecb/products/pdf/my_2n.pdf</datasheet-url>
+    </basic-info>
+    
+    <electrical-specs>
+      <coil-voltage unit="V">24</coil-voltage>
+      <coil-current unit="mA">41.7</coil-current>
+      <contact-rating unit="A">5</contact-rating>
+      <max-switching-voltage unit="V">250</max-switching-voltage>
+      <insulation-voltage unit="V">4000</insulation-voltage>
+    </electrical-specs>
+    
+    <dimensions width="120" height="80"/>
+    <ports>
+      <port id="coil1" type="input" x="5" y="35" label="A1" pin-number="2" description="코일 입력 1"/>
+      <port id="coil2" type="input" x="5" y="45" label="A2" pin-number="7" description="코일 입력 2"/>
+      <port id="nc1" type="output" x="60" y="20" label="NC" pin-number="1" description="상시폐쇄 접점"/>
+      <port id="nc2" type="output" x="100" y="20" label="COM" pin-number="3" description="공통 접점"/>
+      <port id="no1" type="output" x="60" y="60" label="NO" pin-number="4" description="상시개방 접점"/>
+      <port id="no2" type="output" x="100" y="60" label="COM" pin-number="6" description="공통 접점"/>
+    </ports>
+    
+    <properties>
+      <property name="coil-voltage" type="voltage" default="24V" editable="true" options="12V,24V,48V,110V,220V"/>
+      <property name="contact-rating" type="current" default="5A" editable="true" min="1" max="10"/>
+      <property name="mounting" type="string" default="PCB" options="PCB,DIN레일,패널"/>
+    </properties>
+  </component>
+
+  <!-- 차단기 -->
+  <component type="circuit-breaker" name="차단기" symbol="CB" iec-reference="IEC 60617-07-05">
+    <basic-info>
+      <part-number>BKN-63C10</part-number>
+      <manufacturer>LS ELECTRIC</manufacturer>
+      <series>BKN 시리즈</series>
+      <category>배선용차단기</category>
+      <datasheet-url>https://www.lselectric.co.kr/ko/product/bkn</datasheet-url>
+    </basic-info>
+    
+    <electrical-specs>
+      <rated-current unit="A">63</rated-current>
+      <rated-voltage unit="V">240</rated-voltage>
+      <breaking-capacity unit="kA">6</breaking-capacity>
+      <trip-curve>C</trip-curve>
+      <pole-count>1</pole-count>
+    </electrical-specs>
+    
+    <dimensions width="100" height="80"/>
+    <ports>
+      <port id="input" type="input" x="10" y="40" label="IN" terminal="상부 단자" description="입력단"/>
+      <port id="output" type="output" x="90" y="40" label="OUT" terminal="하부 단자" description="출력단"/>
+    </ports>
+    
+    <properties>
+      <property name="rated-current" type="current" default="63A" editable="true" options="10A,16A,20A,25A,32A,40A,50A,63A"/>
+      <property name="pole-count" type="integer" default="1" editable="true" options="1,2,3,4"/>
+      <property name="trip-curve" type="string" default="C" options="B,C,D"/>
+    </properties>
+  </component>
+
+  <!-- 3상 모터 -->
+  <component type="three-phase-motor" name="3상 모터" symbol="M" iec-reference="IEC 60617-07-13">
+    <basic-info>
+      <part-number>YE3-80M1-2</part-number>
+      <manufacturer>현대전기</manufacturer>
+      <series>YE3 고효율 시리즈</series>
+      <category>3상 유도전동기</category>
+      <datasheet-url>https://www.hyundai-electric.com/motor/ye3</datasheet-url>
+    </basic-info>
+    
+    <electrical-specs>
+      <rated-power unit="kW">1.1</rated-power>
+      <rated-voltage unit="V">380</rated-voltage>
+      <rated-current unit="A">2.3</rated-current>
+      <rated-speed unit="rpm">3470</rated-speed>
+      <efficiency unit="%">82.7</efficiency>
+      <connection-type>Star/Delta</connection-type>
+    </electrical-specs>
+    
+    <dimensions width="120" height="100"/>
+    <ports>
+      <port id="u-phase" type="input" x="40" y="15" label="U" terminal="U1" description="U상"/>
+      <port id="v-phase" type="input" x="60" y="15" label="V" terminal="V1" description="V상"/>
+      <port id="w-phase" type="input" x="80" y="15" label="W" terminal="W1" description="W상"/>
+      <port id="ground" type="ground" x="60" y="90" label="PE" terminal="접지 단자" description="보호접지"/>
+    </ports>
+    
+    <properties>
+      <property name="rated-power" type="power" default="1.1kW" editable="true" options="0.75kW,1.1kW,1.5kW,2.2kW,3.7kW"/>
+      <property name="rated-voltage" type="voltage" default="380V" editable="true" options="220V,380V,440V"/>
+      <property name="connection-type" type="string" default="Star" options="Star,Delta,Star-Delta"/>
+      <property name="frame-size" type="string" default="80M" editable="true"/>
+    </properties>
+  </component>
+
+  <!-- 퓨즈 -->
+  <component type="fuse" name="퓨즈" symbol="F" iec-reference="IEC 60617-07-04">
+    <dimensions width="80" height="40"/>
+    <ports>
+      <port id="input" type="input" x="10" y="20" label="IN" description="입력단"/>
+      <port id="output" type="output" x="70" y="20" label="OUT" description="출력단"/>
+    </ports>
+    <properties>
+      <property name="rated-current" type="current" default="10A" description="정격 전류"/>
+      <property name="rated-voltage" type="voltage" default="250V" description="정격 전압"/>
+      <property name="fuse-type" type="string" default="gG" description="퓨즈 형식"/>
+    </properties>
+  </component>
+
+  <!-- 접촉기 -->
+  <component type="contactor" name="접촉기" symbol="KM" iec-reference="IEC 60617-07-17">
+    <dimensions width="120" height="100"/>
+    <ports>
+      <port id="coil1" type="input" x="5" y="75" label="A1" description="코일 입력 1"/>
+      <port id="coil2" type="input" x="5" y="85" label="A2" description="코일 입력 2"/>
+      <port id="l1" type="input" x="10" y="20" label="L1" description="L1상 입력"/>
+      <port id="l2" type="input" x="40" y="20" label="L2" description="L2상 입력"/>
+      <port id="l3" type="input" x="70" y="20" label="L3" description="L3상 입력"/>
+      <port id="t1" type="output" x="10" y="40" label="T1" description="T1상 출력"/>
+      <port id="t2" type="output" x="40" y="40" label="T2" description="T2상 출력"/>
+      <port id="t3" type="output" x="70" y="40" label="T3" description="T3상 출력"/>
+      <port id="aux_nc1" type="output" x="90" y="60" label="95" description="보조접점 NC"/>
+      <port id="aux_nc2" type="output" x="115" y="70" label="96" description="보조접점 COM"/>
+    </ports>
+    <properties>
+      <property name="coil-voltage" type="voltage" default="24V" description="코일 전압"/>
+      <property name="main-contact-rating" type="current" default="25A" description="주접점 정격"/>
+      <property name="aux-contact-rating" type="current" default="5A" description="보조접점 정격"/>
+    </properties>
+  </component>
+
+  <!-- 열동계전기 -->
+  <component type="thermal-relay" name="열동계전기" symbol="TR" iec-reference="IEC 60617-07-20">
+    <dimensions width="100" height="80"/>
+    <ports>
+      <port id="in1" type="input" x="10" y="20" label="IN1" description="1상 입력"/>
+      <port id="in2" type="input" x="10" y="35" label="IN2" description="2상 입력"/>
+      <port id="in3" type="input" x="10" y="50" label="IN3" description="3상 입력"/>
+      <port id="out1" type="output" x="90" y="20" label="OUT1" description="1상 출력"/>
+      <port id="out2" type="output" x="90" y="35" label="OUT2" description="2상 출력"/>
+      <port id="out3" type="output" x="90" y="50" label="OUT3" description="3상 출력"/>
+      <port id="aux1" type="output" x="15" y="65" label="95" description="보조접점 NC"/>
+      <port id="aux2" type="output" x="50" y="65" label="96" description="보조접점 COM"/>
+    </ports>
+    <properties>
+      <property name="current-range" type="current-range" default="5.5-8A" description="전류 설정 범위"/>
+      <property name="trip-class" type="string" default="10A" description="트립 클래스"/>
+    </properties>
+  </component>
+
+  <!-- 변압기 -->
+  <component type="transformer" name="변압기" symbol="T" iec-reference="IEC 60617-07-02">
+    <dimensions width="120" height="80"/>
+    <ports>
+      <port id="primary1" type="input" x="15" y="25" label="P1" description="1차측 입력 1"/>
+      <port id="primary2" type="input" x="15" y="55" label="P2" description="1차측 입력 2"/>
+      <port id="secondary1" type="output" x="105" y="25" label="S1" description="2차측 출력 1"/>
+      <port id="secondary2" type="output" x="105" y="55" label="S2" description="2차측 출력 2"/>
+    </ports>
+    <properties>
+      <property name="primary-voltage" type="voltage" default="220V" description="1차 전압"/>
+      <property name="secondary-voltage" type="voltage" default="24V" description="2차 전압"/>
+      <property name="rated-power" type="power" default="100VA" description="정격 용량"/>
+      <property name="turns-ratio" type="string" default="1:10" description="권수비"/>
+    </properties>
+  </component>
+
+</electrical-components>

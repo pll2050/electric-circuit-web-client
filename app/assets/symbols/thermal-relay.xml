@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-library>
+  <component type="thermal-relay" name="열동계전기" symbol="TR">
+    <description>IEC 60617-07-20 표준 열동계전기</description>
+    <dimensions width="100" height="80"/>
+    <ports>
+      <port id="in1" type="input" x="10" y="20" label="IN1"/>
+      <port id="in2" type="input" x="10" y="35" label="IN2"/>
+      <port id="in3" type="input" x="10" y="50" label="IN3"/>
+      <port id="out1" type="output" x="90" y="20" label="OUT1"/>
+      <port id="out2" type="output" x="90" y="35" label="OUT2"/>
+      <port id="out3" type="output" x="90" y="50" label="OUT3"/>
+      <port id="aux1" type="output" x="15" y="65" label="95"/>
+      <port id="aux2" type="output" x="50" y="65" label="96"/>
+    </ports>
+    <drawing>
+      <rectangle x="20" y="25" width="60" height="30" stroke="black" stroke-width="2" fill="none" rx="5"/>
+      <path d="M 30 35 L 35 30 L 40 40 L 45 30 L 50 40 L 55 30 L 60 40 L 65 30 L 70 35" 
+            stroke="black" stroke-width="1.5" fill="none"/>
+      <circle cx="50" cy="45" r="3" stroke="black" fill="none"/>
+      <text x="50" y="48" text-anchor="middle" font-size="6">θ</text>
+      <text x="50" y="15" text-anchor="middle" font-size="8">TR</text>
+      
+      <!-- 보조접점 -->
+      <circle cx="25" cy="65" r="1.5" stroke="black" fill="none"/>
+      <circle cx="40" cy="65" r="1.5" stroke="black" fill="none"/>
+      <line x1="25" y1="65" x2="35" y2="65" stroke="black" stroke-width="1"/>
+      <line x1="35" y1="65" x2="40" y2="60" stroke="black" stroke-width="1"/>
+    </drawing>
+  </component>
+</component-library>

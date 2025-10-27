@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-library>
+  <component type="transformer" name="변압기" symbol="T">
+    <description>IEC 60617-07-02 표준 변압기</description>
+    <dimensions width="120" height="80"/>
+    <ports>
+      <port id="primary1" type="input" x="15" y="25" label="P1"/>
+      <port id="primary2" type="input" x="15" y="55" label="P2"/>
+      <port id="secondary1" type="output" x="105" y="25" label="S1"/>
+      <port id="secondary2" type="output" x="105" y="55" label="S2"/>
+    </ports>
+    <drawing>
+      <!-- 1차측 권선 -->
+      <circle cx="35" cy="30" r="8" stroke="black" stroke-width="2" fill="none"/>
+      <circle cx="35" cy="50" r="8" stroke="black" stroke-width="2" fill="none"/>
+      
+      <!-- 2차측 권선 -->
+      <circle cx="85" cy="30" r="8" stroke="black" stroke-width="2" fill="none"/>
+      <circle cx="85" cy="50" r="8" stroke="black" stroke-width="2" fill="none"/>
+      
+      <!-- 철심 -->
+      <line x1="55" y1="15" x2="55" y2="65" stroke="black" stroke-width="2"/>
+      <line x1="57" y1="15" x2="57" y2="65" stroke="black" stroke-width="2"/>
+      <line x1="63" y1="15" x2="63" y2="65" stroke="black" stroke-width="2"/>
+      <line x1="65" y1="15" x2="65" y2="65" stroke="black" stroke-width="2"/>
+      
+      <!-- 연결선 -->
+      <line x1="27" y1="25" x2="27" y2="30" stroke="black" stroke-width="1.5"/>
+      <line x1="27" y1="55" x2="27" y2="50" stroke="black" stroke-width="1.5"/>
+      <line x1="93" y1="25" x2="93" y2="30" stroke="black" stroke-width="1.5"/>
+      <line x1="93" y1="55" x2="93" y2="50" stroke="black" stroke-width="1.5"/>
+      
+      <!-- 라벨 -->
+      <text x="35" y="75" text-anchor="middle" font-size="8">220V</text>
+      <text x="85" y="75" text-anchor="middle" font-size="8">24V</text>
+      <text x="60" y="10" text-anchor="middle" font-size="8">T</text>
+      <text x="60" y="75" text-anchor="middle" font-size="8">1:10</text>
+    </drawing>
+  </component>
+</component-library>

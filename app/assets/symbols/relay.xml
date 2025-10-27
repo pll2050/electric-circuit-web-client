@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-library>
+  <component type="relay" name="릴레이" symbol="K">
+    <basic-info>
+      <description>IEC 60617-07-17 표준 릴레이</description>
+      <part-number>MY2N-J</part-number>
+      <manufacturer>OMRON</manufacturer>
+      <series>MY 시리즈</series>
+      <category>제어계전기</category>
+      <subcategory>중간계전기</subcategory>
+    </basic-info>
+    
+    <electrical-specs>
+      <coil-voltage unit="V">24</coil-voltage>
+      <coil-current unit="mA">41.7</coil-current>
+      <coil-resistance unit="Ω">576</coil-resistance>
+      <contact-rating unit="A">5</contact-rating>
+      <max-switching-voltage unit="V">250</max-switching-voltage>
+      <insulation-voltage unit="V">4000</insulation-voltage>
+      <operating-temperature min="-40" max="70" unit="°C"/>
+    </electrical-specs>
+    
+    <mechanical-specs>
+      <contact-arrangement>2PDT</contact-arrangement>
+      <terminal-type>PCB 단자</terminal-type>
+      <mounting-type>PCB 실장</mounting-type>
+      <operate-time unit="ms">10</operate-time>
+      <release-time unit="ms">5</release-time>
+      <mechanical-life unit="cycles">10000000</mechanical-life>
+      <electrical-life unit="cycles">100000</electrical-life>
+    </mechanical-specs>
+    
+    <dimensions width="120" height="80" depth="15.5" unit="mm"/>
+    
+    <ports>
+      <port id="coil1" type="input" x="5" y="35" label="A1" pin-number="2"/>
+      <port id="coil2" type="input" x="5" y="45" label="A2" pin-number="7"/>
+      <port id="nc1" type="output" x="60" y="20" label="NC" pin-number="1"/>
+      <port id="nc2" type="output" x="100" y="20" label="COM" pin-number="3"/>
+      <port id="no1" type="output" x="60" y="60" label="NO" pin-number="4"/>
+      <port id="no2" type="output" x="100" y="60" label="COM" pin-number="6"/>
+    </ports>
+    
+    <certifications>
+      <certification standard="UL" number="E41515"/>
+      <certification standard="CSA" number="LR24764"/>
+      <certification standard="VDE" number="40009024"/>
+      <certification standard="CCC" number="2001010901000264"/>
+    </certifications>
+    <drawing>
+      <rectangle x="15" y="25" width="35" height="30" stroke="black" stroke-width="2" fill="none" rx="3"/>
+      <text x="32.5" y="45" text-anchor="middle" font-size="10">K</text>
+      <circle cx="70" cy="20" r="2" stroke="black" fill="none"/>
+      <circle cx="90" cy="20" r="2" stroke="black" fill="none"/>
+      <line x1="70" y1="20" x2="85" y2="20" stroke="black" stroke-width="2"/>
+      <line x1="85" y1="20" x2="90" y2="15" stroke="black" stroke-width="2"/>
+      <circle cx="70" cy="60" r="2" stroke="black" fill="none"/>
+      <circle cx="90" cy="60" r="2" stroke="black" fill="none"/>
+      <line x1="70" y1="60" x2="85" y2="60" stroke="black" stroke-width="2"/>
+      <line x1="85" y1="60" x2="90" y2="50" stroke="black" stroke-width="2"/>
+      <line x1="50" y1="40" x2="65" y2="40" stroke="black" stroke-dasharray="2,2"/>
+    </drawing>
+  </component>
+</component-library>

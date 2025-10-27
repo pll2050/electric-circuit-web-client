@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-library>
+  <component type="fuse" name="퓨즈" symbol="F">
+    <description>IEC 60617-07-04 표준 퓨즈</description>
+    <dimensions width="80" height="40"/>
+    <ports>
+      <port id="input" type="input" x="10" y="20" label="IN"/>
+      <port id="output" type="output" x="70" y="20" label="OUT"/>
+    </ports>
+    <drawing>
+      <rectangle x="25" y="15" width="30" height="10" stroke="black" stroke-width="2" fill="none" rx="5"/>
+      <line x1="30" y1="20" x2="50" y2="20" stroke="black" stroke-width="1"/>
+      <text x="40" y="35" text-anchor="middle" font-size="8">F</text>
+    </drawing>
+  </component>
+</component-library>

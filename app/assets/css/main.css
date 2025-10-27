@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles */
+body {
+  @apply bg-gray-50 text-gray-900;
+}
+
+/* Custom utility classes */
+.canvas-container {
+  @apply w-full h-full relative overflow-hidden;
+}
+
+/* Common Modal Animations */
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.modal-enter-to,
+.modal-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.modal-enter-active .bg-black\/50,
+.modal-leave-active .bg-black\/50 {
+  transition: opacity 0.3s ease;
+}
+
+.modal-enter-from .bg-black\/50,
+.modal-leave-to .bg-black\/50 {
+  opacity: 0;
+}
+
+.modal-enter-from .modal-content,
+.modal-leave-to .modal-content {
+  transform: scale(0.95);
+}
+
+/* Common background colors for consistency */
+.bg-gray-750 {
+  background-color: #2d3748;
+}
+
+.bg-gray-850 {
+  background-color: #1a202c;
+}
