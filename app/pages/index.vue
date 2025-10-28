@@ -7,7 +7,7 @@
       <p class="text-lg text-gray-600 mb-8">
         웹 기반 전기회로 설계 및 시뮬레이터
       </p>
-      <div class="flex gap-4 justify-center">
+      <div class="flex gap-4 justify-center flex-wrap">
         <NuxtLink
           to="/editor"
           class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
@@ -19,6 +19,18 @@
           class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
         >
           프로젝트 보기
+        </NuxtLink>
+        <NuxtLink
+          to="/test-canvas"
+          class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+        >
+          @joint/core 테스트
+        </NuxtLink>
+        <NuxtLink
+          to="/jointjs-plus-test"
+          class="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+        >
+          JointJS+ 테스트
         </NuxtLink>
       </div>
     </div>

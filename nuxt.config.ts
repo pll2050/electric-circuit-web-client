@@ -32,7 +32,7 @@ export default defineNuxtConfig({
 
   vite: {
     optimizeDeps: {
-      include: ['jointjs', '@babylonjs/core', '@babylonjs/loaders']
+      include: ['@joint/core', '@joint/plus', '@babylonjs/core', '@babylonjs/loaders', 'mxgraph']
     }
   }
 })
