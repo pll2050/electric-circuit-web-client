@@ -244,10 +244,12 @@ export const useDrawingTemplate = () => {
             strokeWidth: parseInt(titleBorderEl?.getAttribute('stroke-width') || '1')
           },
           label: {
-            text: projectInfo?.name || titleTextEl?.getAttribute('placeholder') || '프로젝트명',
+            text: projectInfo?.name || titleTextEl?.getAttribute('placeholder') || '새 프로젝트',
             fill: '#000000',
-            fontSize: parseInt(titleTextEl?.getAttribute('font-size') || '18'),
-            fontWeight: titleTextEl?.getAttribute('font-weight') || 'bold'
+            fontSize: parseInt(titleTextEl?.getAttribute('font-size') || '16'),
+            fontWeight: titleTextEl?.getAttribute('font-weight') || 'bold',
+            textVerticalAnchor: 'middle',
+            refY: '50%'
           }
         }
       })
@@ -287,8 +289,9 @@ export const useDrawingTemplate = () => {
               fontSize: 11,
               fontWeight: 'bold',
               textAnchor: 'start',
+              textVerticalAnchor: 'middle',
               refX: 5,
-              refY: fieldHeight / 2 + 1
+              refY: '50%'
             }
           }
         })
@@ -329,8 +332,9 @@ export const useDrawingTemplate = () => {
               fill: '#000000',
               fontSize: 11,
               textAnchor: 'start',
+              textVerticalAnchor: 'middle',
               refX: 5,
-              refY: fieldHeight / 2 + 1
+              refY: '50%'
             }
           }
         })
