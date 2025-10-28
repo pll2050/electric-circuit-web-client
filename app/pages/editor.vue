@@ -11,6 +11,7 @@
         @toggle-grid="toggleGrid"
         @open-library="showComponentLibrary = true"
         @open-project-settings="showProjectSettings = true"
+        @open-layout-library="showLayoutLibrary = true"
         @toggle-left-panel="toggleLeftPanel"
         @toggle-right-panel="toggleRightPanel"
         @simulate="runSimulation"
@@ -201,6 +202,12 @@
       @close="showProjectSettings = false"
       @save="handleSaveProjectSettings"
     />
+
+    <!-- Layout Library Modal -->
+    <LayoutLibraryModal
+      v-model="showLayoutLibrary"
+      @select-layout="handleLayoutSelect"
+    />
   </div>
 </template>
 
@@ -216,6 +223,7 @@ import StatusBar from '~/components/editor/StatusBar.vue'
 import PropertiesPanel from '~/components/editor/PropertiesPanel.vue'
 import ComponentLibraryModal from '~/components/ComponentLibraryModal.vue'
 import ProjectSettingsModal from '~/components/ProjectSettingsModal.vue'
+import LayoutLibraryModal from '~/components/LayoutLibraryModal.vue'
 
 definePageMeta({
   layout: false
@@ -228,6 +236,7 @@ const componentCount = ref(0)
 const connectionCount = ref(0)
 const showComponentLibrary = ref(false)
 const showProjectSettings = ref(false)
+const showLayoutLibrary = ref(false)
 
 // Resizer state
 const leftPanelWidth = ref(256) // 16rem = 256px
@@ -309,8 +318,8 @@ const projectSettings = ref<ProjectSettings>({
   protectionClass: 'IP54',
   
   // 기타 정보
-  createdDate: new Date().toISOString().split('T')[0],
-  modifiedDate: new Date().toISOString().split('T')[0],
+  createdDate: new Date().toISOString().split('T')[0] || '',
+  modifiedDate: new Date().toISOString().split('T')[0] || '',
   dueDate: '',
   status: 'planning',
   progress: 0,
@@ -512,6 +521,21 @@ const handlePageSizeChange = async (size: string) => {
   if (editorComposable && editorComposable.updatePageSize) {
     await editorComposable.updatePageSize(size, projectSettings.value)
   }
+}
+
+const handleLayoutSelect = async (layout: any) => {
+  console.log('Layout selected:', layout)
+  
+  // Update project settings with selected layout info
+  projectSettings.value.electricalStandard = layout.pageInfo.size === 'A3' ? 'IEC' : 'IEC'
+  
+  // Apply the selected layout to the canvas
+  if (editorComposable && editorComposable.updatePageSize) {
+    await editorComposable.updatePageSize(layout.pageInfo.size, projectSettings.value)
+  }
+  
+  // TODO: Apply XML layout template to canvas
+  // This would involve parsing the XML and creating the layout elements
 }
 
 // Resizer functions
