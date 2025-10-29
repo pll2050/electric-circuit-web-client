@@ -2,7 +2,7 @@
   <div class="min-h-screen flex flex-col items-center justify-center p-4">
     <div class="text-center">
       <h1 class="text-4xl font-bold text-primary-600 mb-4">
-        Electric Circuit Web
+        전기회로 설계 플랫폼
       </h1>
       <p class="text-lg text-gray-600 mb-8">
         웹 기반 전기회로 설계 및 시뮬레이터

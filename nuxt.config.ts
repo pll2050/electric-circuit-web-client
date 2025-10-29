@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import Aura from '@primeuix/themes/aura'
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
@@ -8,7 +10,16 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
+    '@primevue/nuxt-module'
   ],
+
+  primevue: {
+    options: {
+      theme: {
+        preset: Aura
+      }
+    }
+  },
 
   runtimeConfig: {
     public: {
@@ -35,7 +46,7 @@ export default defineNuxtConfig({
   },
 
   css: [
-    '~/assets/css/main.css',
+    '~/assets/css/main.css'
   ],
 
   typescript: {

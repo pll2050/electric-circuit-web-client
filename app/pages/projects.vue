@@ -1,25 +1,5 @@
 <template>
   <div class="min-h-screen bg-gray-50">
-    <!-- 헤더 -->
-    <div class="bg-white border-b border-gray-200">
-      <div class="container mx-auto px-4 py-4">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-4">
-            <h1 class="text-xl font-bold text-gray-900">전기회로 설계 시스템</h1>
-          </div>
-          <div class="flex items-center gap-4">
-            <span class="text-sm text-gray-600" v-if="authStore.user">{{ authStore.user.displayName }}</span>
-            <button
-              @click="handleLogout"
-              class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              로그아웃
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="container mx-auto px-4 py-8">
       <div class="flex items-center justify-between mb-8">
         <div>
@@ -106,12 +86,6 @@ onMounted(async () => {
 definePageMeta({
   layout: 'default'
 })
-
-// 로그아웃 핸들러
-const handleLogout = async () => {
-  await authStore.logout()
-  router.push('/login')
-}
 
 // Sample projects data
 const sampleProjects = ref([

@@ -1,3 +1,5 @@
+import { useAuthStore } from '~/store/auth'
+
 /**
  * 인증 미들웨어
  * 로그인하지 않은 사용자의 접근을 차단합니다.
