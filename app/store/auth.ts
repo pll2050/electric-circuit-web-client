@@ -33,6 +33,30 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     /**
+     * 백엔드에 사용자 정보 동기화
+     */
+    async syncUserToBackend(uid: string, provider: string) {
+      const config = useRuntimeConfig()
+
+      try {
+        await $fetch(`${config.public.apiBaseUrl}/auth/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: {
+            uid: uid,
+            provider: provider,
+          },
+        })
+        console.log('사용자 정보가 Firestore와 PostgreSQL에 저장되었습니다.')
+      } catch (error) {
+        console.error('백엔드 동기화 오류:', error)
+        // 동기화 실패는 로그만 남기고 계속 진행
+      }
+    },
+
+    /**
      * Firebase를 사용한 로그인
      */
     async login(email: string, password: string) {
@@ -41,6 +65,7 @@ export const useAuthStore = defineStore('auth', {
 
       try {
         const { login: firebaseLogin, getIdToken } = useFirebaseAuth()
+        const { trackAuthEvent, setAnalyticsUserId } = useAnalytics()
 
         // Firebase로 로그인
         const userCredential = await firebaseLogin(email, password)
@@ -65,6 +90,13 @@ export const useAuthStore = defineStore('auth', {
           localStorage.setItem('user_data', JSON.stringify(this.user))
         }
 
+        // Analytics 이벤트 추적
+        trackAuthEvent('login', 'email')
+        setAnalyticsUserId(firebaseUser.uid)
+
+        // 백엔드에 사용자 정보 동기화 (Firestore → PostgreSQL)
+        await this.syncUserToBackend(firebaseUser.uid, 'email')
+
         return { user: this.user, token: idToken }
       } catch (error: any) {
         this.error = error.message || '로그인 중 오류가 발생했습니다.'
@@ -83,6 +115,7 @@ export const useAuthStore = defineStore('auth', {
 
       try {
         const { register: firebaseRegister, getIdToken } = useFirebaseAuth()
+        const { trackAuthEvent, setAnalyticsUserId, setAnalyticsUserProperties } = useAnalytics()
 
         // Firebase로 회원가입
         const userCredential = await firebaseRegister(email, password, displayName)
@@ -107,9 +140,83 @@ export const useAuthStore = defineStore('auth', {
           localStorage.setItem('user_data', JSON.stringify(this.user))
         }
 
+        // Analytics 이벤트 추적
+        trackAuthEvent('signup', 'email')
+        setAnalyticsUserId(firebaseUser.uid)
+        setAnalyticsUserProperties({
+          display_name: displayName,
+          email_verified: firebaseUser.emailVerified,
+        })
+
+        // 백엔드에 사용자 정보 동기화 (Firestore → PostgreSQL)
+        await this.syncUserToBackend(firebaseUser.uid, 'email')
+
         return { user: this.user, token: idToken }
       } catch (error: any) {
         this.error = error.message || '회원가입 중 오류가 발생했습니다.'
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    /**
+     * Google 로그인/회원가입
+     */
+    async signInWithGoogle() {
+      this.isLoading = true
+      this.error = null
+
+      try {
+        const { signInWithGoogle: firebaseGoogleSignIn, getIdToken } = useFirebaseAuth()
+        const { trackAuthEvent, setAnalyticsUserId, setAnalyticsUserProperties } = useAnalytics()
+
+        // Google로 로그인
+        const userCredential = await firebaseGoogleSignIn()
+        const firebaseUser = userCredential.user
+
+        // ID 토큰 가져오기
+        const idToken = await getIdToken(firebaseUser)
+
+        // 사용자 정보 저장
+        this.user = {
+          uid: firebaseUser.uid,
+          email: firebaseUser.email || '',
+          displayName: firebaseUser.displayName || '',
+          photoURL: firebaseUser.photoURL || undefined,
+        }
+        this.token = idToken
+        this.isAuthenticated = true
+
+        // 토큰을 로컬 스토리지에 저장
+        if (process.client) {
+          localStorage.setItem('auth_token', idToken)
+          localStorage.setItem('user_data', JSON.stringify(this.user))
+        }
+
+        // 신규 사용자인지 확인 (additionalUserInfo를 통해)
+        const additionalUserInfo = (userCredential as any).additionalUserInfo
+        const isNewUser = additionalUserInfo?.isNewUser || false
+
+        // Analytics 이벤트 추적
+        if (isNewUser) {
+          trackAuthEvent('signup', 'google')
+        } else {
+          trackAuthEvent('login', 'google')
+        }
+        setAnalyticsUserId(firebaseUser.uid)
+        setAnalyticsUserProperties({
+          display_name: firebaseUser.displayName || '',
+          email_verified: firebaseUser.emailVerified,
+          provider: 'google',
+        })
+
+        // 백엔드에 사용자 정보 동기화 (Firestore → PostgreSQL)
+        await this.syncUserToBackend(firebaseUser.uid, 'google')
+
+        return { user: this.user, token: idToken, isNewUser }
+      } catch (error: any) {
+        this.error = error.message || 'Google 로그인 중 오류가 발생했습니다.'
         throw error
       } finally {
         this.isLoading = false
@@ -122,6 +229,8 @@ export const useAuthStore = defineStore('auth', {
     async logout() {
       try {
         const { logout: firebaseLogout } = useFirebaseAuth()
+        const { trackAuthEvent } = useAnalytics()
+
         await firebaseLogout()
 
         this.user = null
@@ -133,6 +242,9 @@ export const useAuthStore = defineStore('auth', {
           localStorage.removeItem('auth_token')
           localStorage.removeItem('user_data')
         }
+
+        // Analytics 이벤트 추적
+        trackAuthEvent('logout')
       } catch (error: any) {
         console.error('로그아웃 오류:', error)
       }
@@ -144,6 +256,12 @@ export const useAuthStore = defineStore('auth', {
     initAuthListener() {
       if (process.client) {
         const { $firebaseAuth } = useNuxtApp()
+
+        // Firebase Auth가 초기화되지 않았으면 리턴
+        if (!$firebaseAuth) {
+          console.warn('Firebase Auth is not initialized yet')
+          return
+        }
 
         onAuthStateChanged($firebaseAuth, async (firebaseUser: FirebaseUser | null) => {
           if (firebaseUser) {

@@ -1,6 +1,8 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
   updateProfile,
   type User,
@@ -64,6 +66,23 @@ export const useFirebaseAuth = () => {
   }
 
   /**
+   * Google 로그인
+   */
+  const signInWithGoogle = async (): Promise<UserCredential> => {
+    try {
+      const provider = new GoogleAuthProvider()
+      provider.setCustomParameters({
+        prompt: 'select_account'
+      })
+      const userCredential = await signInWithPopup($firebaseAuth, provider)
+      return userCredential
+    } catch (error: any) {
+      console.error('Google 로그인 오류:', error)
+      throw new Error(getFirebaseErrorMessage(error.code))
+    }
+  }
+
+  /**
    * 로그아웃
    */
   const logout = async (): Promise<void> => {
@@ -119,6 +138,7 @@ export const useFirebaseAuth = () => {
   return {
     register,
     login,
+    signInWithGoogle,
     logout,
     getIdToken,
     getFirebaseErrorMessage,
