@@ -172,6 +172,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '~/store/auth'
 
 // 페이지 메타데이터
 definePageMeta({
@@ -179,6 +180,7 @@ definePageMeta({
 })
 
 const router = useRouter()
+const authStore = useAuthStore()
 
 // 폼 데이터
 const formData = reactive({
@@ -268,15 +270,11 @@ const handleRegister = async () => {
   errorMessage.value = ''
 
   try {
-    const api = useApi()
-    const data = await api.post('/auth/register', {
-      display_name: formData.name,
-      email: formData.email,
-      password: formData.password,
-    })
+    // Firebase를 통한 회원가입
+    await authStore.register(formData.email, formData.password, formData.name)
 
-    // 회원가입 성공 시 로그인 페이지로 이동
-    router.push('/login')
+    // 회원가입 성공 시 프로젝트 페이지로 이동
+    router.push('/projects')
   } catch (error: any) {
     errorMessage.value = error.message || '회원가입 중 오류가 발생했습니다.'
     console.error('회원가입 실패:', error)
