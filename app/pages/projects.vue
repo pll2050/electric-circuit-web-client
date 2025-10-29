@@ -1,14 +1,34 @@
 <template>
   <div class="min-h-screen bg-gray-50">
+    <!-- 헤더 -->
+    <div class="bg-white border-b border-gray-200">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <h1 class="text-xl font-bold text-gray-900">전기회로 설계 시스템</h1>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-gray-600" v-if="authStore.user">{{ authStore.user.displayName }}</span>
+            <button
+              @click="handleLogout"
+              class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              로그아웃
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container mx-auto px-4 py-8">
       <div class="flex items-center justify-between mb-8">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">내 프로젝트</h1>
+          <h2 class="text-3xl font-bold text-gray-900 mb-2">내 프로젝트</h2>
           <p class="text-gray-600">저장된 회로 설계 프로젝트를 관리합니다</p>
         </div>
         <NuxtLink
           to="/editor"
-          class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors flex items-center gap-2"
+          class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -70,9 +90,28 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '~/store/auth'
+
+// 인증 체크
+const authStore = useAuthStore()
+const router = useRouter()
+
+onMounted(async () => {
+  await authStore.checkAuth()
+  if (!authStore.isLoggedIn) {
+    router.push('/login')
+  }
+})
+
 definePageMeta({
   layout: 'default'
 })
+
+// 로그아웃 핸들러
+const handleLogout = async () => {
+  await authStore.logout()
+  router.push('/login')
+}
 
 // Sample projects data
 const sampleProjects = ref([

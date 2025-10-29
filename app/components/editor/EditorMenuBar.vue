@@ -114,6 +114,33 @@
           <button class="w-full px-3 py-2 text-left text-gray-300 hover:bg-gray-600 text-xs">정보</button>
         </div>
       </div>
+
+      <!-- 사용자 메뉴 -->
+      <div class="ml-auto flex items-center">
+        <div class="relative" @mouseenter="showUserMenu = true" @mouseleave="showUserMenu = false">
+          <button class="flex items-center px-3 py-1 text-gray-300 hover:bg-gray-700 rounded">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span v-if="authStore.user">{{ authStore.user.displayName }}</span>
+            <span v-else>사용자</span>
+          </button>
+          <div v-if="showUserMenu" class="absolute top-full right-0 bg-gray-700 border border-gray-600 rounded-md shadow-lg py-1 z-50 min-w-40">
+            <div class="px-3 py-2 text-xs text-gray-400 border-b border-gray-600">
+              <div v-if="authStore.user">{{ authStore.user.email }}</div>
+            </div>
+            <button class="w-full px-3 py-2 text-left text-gray-300 hover:bg-gray-600 text-xs">프로필</button>
+            <button class="w-full px-3 py-2 text-left text-gray-300 hover:bg-gray-600 text-xs">설정</button>
+            <div class="border-t border-gray-600 my-1"></div>
+            <button
+              @click="handleLogout"
+              class="w-full px-3 py-2 text-left text-red-400 hover:bg-gray-600 text-xs"
+            >
+              로그아웃
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -132,6 +159,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import ConfirmModal from '~/components/ui/ConfirmModal.vue'
+import { useAuthStore } from '~/store/auth'
+
+const authStore = useAuthStore()
 
 const showFileMenu = ref(false)
 const showEditMenu = ref(false)
@@ -140,6 +170,7 @@ const showInsertMenu = ref(false)
 const showProjectMenu = ref(false)
 const showToolsMenu = ref(false)
 const showHelpMenu = ref(false)
+const showUserMenu = ref(false)
 const showExitModal = ref(false)
 
 const handleExit = () => {
@@ -156,5 +187,10 @@ const confirmExit = () => {
 const cancelExit = () => {
   // 취소를 클릭한 경우 모달만 닫기
   showExitModal.value = false
+}
+
+const handleLogout = async () => {
+  await authStore.logout()
+  navigateTo('/login')
 }
 </script>

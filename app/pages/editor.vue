@@ -224,9 +224,21 @@ import PropertiesPanel from '~/components/editor/PropertiesPanel.vue'
 import ComponentLibraryModal from '~/components/ComponentLibraryModal.vue'
 import ProjectSettingsModal from '~/components/ProjectSettingsModal.vue'
 import LayoutLibraryModal from '~/components/LayoutLibraryModal.vue'
+import { useAuthStore } from '~/store/auth'
 
 definePageMeta({
   layout: false
+})
+
+// 인증 체크
+const authStore = useAuthStore()
+const router = useRouter()
+
+onMounted(async () => {
+  await authStore.checkAuth()
+  if (!authStore.isLoggedIn) {
+    router.push('/login')
+  }
 })
 
 // State
