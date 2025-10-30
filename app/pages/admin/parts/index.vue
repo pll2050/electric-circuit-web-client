@@ -1,203 +1,202 @@
 <template>
-  <div class="admin-parts-page">
-    <div class="page-header">
-      <h1>부품 및 심볼 관리</h1>
-      <div class="header-actions">
-        <Button
-          label="샘플 XML 다운로드"
-          icon="pi pi-download"
-          @click="downloadSampleXml"
-          severity="secondary"
-          outlined
-        />
-        <Button
-          label="XML 가져오기"
-          icon="pi pi-upload"
-          @click="() => fileInput?.click()"
-          severity="info"
-        />
-        <Button
-          label="새 부품 추가"
-          icon="pi pi-plus"
-          @click="openAddDialog"
-          severity="success"
-        />
-      </div>
-    </div>
-
-    <Card class="parts-card">
-      <template #content>
-        <div v-if="loading" class="loading-state">
-          <ProgressSpinner />
-          <p>부품 목록을 불러오는 중...</p>
+  <BaseLayout title="부품 및 심볼 관리 - Electric Circuit Web">
+    <div class="admin-parts-page">
+      <div class="page-header">
+        <h1>부품 및 심볼 관리</h1>
+        <div class="header-actions">
+          <Button
+            label="샘플 XML 다운로드"
+            icon="pi pi-download"
+            @click="downloadSampleXml"
+            severity="secondary"
+            outlined
+          />
+          <Button
+            label="XML 가져오기"
+            icon="pi pi-upload"
+            @click="() => fileInput?.click()"
+            severity="info"
+          />
+          <Button
+            label="새 부품 추가"
+            icon="pi pi-plus"
+            @click="openAddDialog"
+            severity="success"
+          />
         </div>
-
-        <Message v-else-if="error" severity="error">
-          {{ error }}
-        </Message>
-
-        <DataTable
-          v-else
-          :value="parts"
-          paginator
-          :rows="10"
-          :rowsPerPageOptions="[5, 10, 20, 50]"
-          tableStyle="min-width: 50rem"
-          stripedRows
-          sortMode="multiple"
-          filterDisplay="row"
-          :globalFilterFields="['name', 'partNumber', 'category', 'manufacturer']"
-        >
-          <template #header>
-            <div class="table-header">
-              <span class="p-input-icon-left">
-                <i class="pi pi-search" />
-                <InputText
-                  v-model="globalFilter"
-                  placeholder="부품 검색..."
-                  class="search-input"
-                />
-              </span>
-            </div>
-          </template>
-
-          <Column field="partNumber" header="부품 번호" sortable style="min-width: 12rem">
-            <template #body="{ data }">
-              <span class="part-number">{{ data.partNumber }}</span>
-            </template>
-          </Column>
-
-          <Column field="name" header="부품명" sortable style="min-width: 15rem">
-            <template #body="{ data }">
-              <div class="part-name-cell">
-                <strong>{{ data.name }}</strong>
-              </div>
-            </template>
-          </Column>
-
-          <Column field="category" header="카테고리" sortable style="min-width: 10rem">
-            <template #body="{ data }">
-              <Tag :value="data.category" :severity="getCategorySeverity(data.category)" />
-            </template>
-          </Column>
-
-          <Column field="manufacturer" header="제조사" sortable style="min-width: 10rem" />
-
-          <Column field="hasSymbol" header="심볼" sortable style="min-width: 8rem">
-            <template #body="{ data }">
-              <Tag
-                :value="data.hasSymbol ? '있음' : '없음'"
-                :severity="data.hasSymbol ? 'success' : 'warning'"
-              />
-            </template>
-          </Column>
-
-          <Column field="has3DModel" header="3D 모델" sortable style="min-width: 8rem">
-            <template #body="{ data }">
-              <Tag
-                :value="data.has3DModel ? '있음' : '없음'"
-                :severity="data.has3DModel ? 'success' : 'secondary'"
-              />
-            </template>
-          </Column>
-
-          <Column field="updatedAt" header="수정일" sortable style="min-width: 10rem">
-            <template #body="{ data }">
-              {{ formatDate(data.updatedAt) }}
-            </template>
-          </Column>
-
-          <Column header="작업" style="min-width: 15rem">
-            <template #body="{ data }">
-              <div class="action-buttons">
-                <Button
-                  icon="pi pi-eye"
-                  rounded
-                  text
-                  severity="info"
-                  @click="viewPart(data)"
-                  v-tooltip.top="'상세보기'"
-                />
-                <Button
-                  icon="pi pi-code"
-                  rounded
-                  text
-                  severity="secondary"
-                  @click="viewXml(data)"
-                  v-tooltip.top="'XML 보기'"
-                />
-                <Button
-                  icon="pi pi-download"
-                  rounded
-                  text
-                  severity="help"
-                  @click="downloadXml(data)"
-                  v-tooltip.top="'XML 다운로드'"
-                />
-                <Button
-                  icon="pi pi-pencil"
-                  rounded
-                  text
-                  severity="warning"
-                  @click="editPart(data)"
-                  v-tooltip.top="'수정'"
-                />
-                <Button
-                  icon="pi pi-trash"
-                  rounded
-                  text
-                  severity="danger"
-                  @click="deletePart(data)"
-                  v-tooltip.top="'삭제'"
-                />
-              </div>
-            </template>
-          </Column>
-        </DataTable>
-      </template>
-    </Card>
-
-    <!-- 숨겨진 파일 입력 -->
-    <input
-      ref="fileInput"
-      type="file"
-      accept=".xml"
-      style="display: none"
-      @change="handleFileImport"
-    />
-
-    <!-- XML 뷰어 다이얼로그 -->
-    <Dialog
-      v-model:visible="xmlViewerVisible"
-      header="부품 XML"
-      :style="{ width: '80vw' }"
-      :maximizable="true"
-      :modal="true"
-    >
-      <div class="xml-viewer">
-        <pre><code>{{ viewingXml }}</code></pre>
       </div>
-      <template #footer>
-        <Button label="닫기" icon="pi pi-times" @click="xmlViewerVisible = false" text />
-        <Button
-          label="다운로드"
-          icon="pi pi-download"
-          @click="downloadViewingXml"
-          severity="success"
-        />
-      </template>
-    </Dialog>
 
-    <!-- 부품 추가/수정 모달 -->
-    <PartEditorDialog
-      v-model:visible="editorVisible"
-      :partData="editingPart"
-      @save="handlePartSave"
-    />
-  </div>
+      <Card class="parts-card">
+        <template #content>
+          <div v-if="loading" class="loading-state">
+            <ProgressSpinner />
+            <p>부품 목록을 불러오는 중...</p>
+          </div>
+
+          <Message v-else-if="error" severity="error">
+            {{ error }}
+          </Message>
+
+          <DataTable
+            v-else
+            :value="parts"
+            :globalFilter="globalFilter"
+            paginator
+            rows="10"
+            :rowsPerPageOptions="[10, 20, 50]"
+          >
+            <template #header>
+              <div class="table-header">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search" />
+                  <InputText
+                    v-model="globalFilter"
+                    placeholder="부품 검색..."
+                    class="search-input"
+                  />
+                </span>
+              </div>
+            </template>
+
+            <Column field="partNumber" header="부품 번호" sortable style="min-width: 12rem">
+              <template #body="{ data }">
+                <span class="part-number">{{ data.partNumber }}</span>
+              </template>
+            </Column>
+
+            <Column field="name" header="부품명" sortable style="min-width: 15rem">
+              <template #body="{ data }">
+                <div class="part-name-cell">
+                  <strong>{{ data.name }}</strong>
+                </div>
+              </template>
+            </Column>
+
+            <Column field="category" header="카테고리" sortable style="min-width: 10rem">
+              <template #body="{ data }">
+                <Tag :value="data.category" :severity="getCategorySeverity(data.category)" />
+              </template>
+            </Column>
+
+            <Column field="manufacturer" header="제조사" sortable style="min-width: 10rem" />
+
+            <Column field="hasSymbol" header="심볼" sortable style="min-width: 8rem">
+              <template #body="{ data }">
+                <Tag
+                  :value="data.hasSymbol ? '있음' : '없음'"
+                  :severity="data.hasSymbol ? 'success' : 'warning'"
+                />
+              </template>
+            </Column>
+
+            <Column field="has3DModel" header="3D 모델" sortable style="min-width: 8rem">
+              <template #body="{ data }">
+                <Tag
+                  :value="data.has3DModel ? '있음' : '없음'"
+                  :severity="data.has3DModel ? 'success' : 'secondary'"
+                />
+              </template>
+            </Column>
+
+            <Column field="updatedAt" header="수정일" sortable style="min-width: 10rem">
+              <template #body="{ data }">
+                {{ formatDate(data.updatedAt) }}
+              </template>
+            </Column>
+
+            <Column header="작업" style="min-width: 15rem">
+              <template #body="{ data }">
+                <div class="action-buttons">
+                  <Button
+                    icon="pi pi-eye"
+                    rounded
+                    text
+                    severity="info"
+                    @click="viewPart(data)"
+                    v-tooltip.top="'상세보기'"
+                  />
+                  <Button
+                    icon="pi pi-code"
+                    rounded
+                    text
+                    severity="secondary"
+                    @click="viewXml(data)"
+                    v-tooltip.top="'XML 보기'"
+                  />
+                  <Button
+                    icon="pi pi-download"
+                    rounded
+                    text
+                    severity="help"
+                    @click="downloadXml(data)"
+                    v-tooltip.top="'XML 다운로드'"
+                  />
+                  <Button
+                    icon="pi pi-pencil"
+                    rounded
+                    text
+                    severity="warning"
+                    @click="editPart(data)"
+                    v-tooltip.top="'수정'"
+                  />
+                  <Button
+                    icon="pi pi-trash"
+                    rounded
+                    text
+                    severity="danger"
+                    @click="deletePart(data)"
+                    v-tooltip.top="'삭제'"
+                  />
+                </div>
+              </template>
+            </Column>
+          </DataTable>
+        </template>
+      </Card>
+
+      <!-- 숨겨진 파일 입력 -->
+      <input
+        ref="fileInput"
+        type="file"
+        accept=".xml"
+        style="display: none"
+        @change="handleFileImport"
+      />
+
+      <!-- XML 뷰어 다이얼로그 -->
+      <Dialog
+        v-model:visible="xmlViewerVisible"
+        header="부품 XML"
+        :style="{ width: '80vw' }"
+        :maximizable="true"
+        :modal="true"
+      >
+        <div class="xml-viewer">
+          <pre><code>{{ viewingXml }}</code></pre>
+        </div>
+        <template #footer>
+          <Button label="닫기" icon="pi pi-times" @click="xmlViewerVisible = false" text />
+          <Button
+            label="다운로드"
+            icon="pi pi-download"
+            @click="downloadViewingXml"
+            severity="success"
+          />
+        </template>
+      </Dialog>
+
+      <!-- 부품 추가/수정 모달 -->
+      <PartEditorDialog
+        v-model:visible="editorVisible"
+        :partData="editingPart"
+        @save="handlePartSave"
+      />
+    </div>
+  </BaseLayout>
 </template>
 
 <script setup lang="ts">
+import BaseLayout from '@/components/BaseLayout.vue'
 import { ref, onMounted } from 'vue'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
@@ -543,33 +542,23 @@ function deletePart(part: PartListItem) {
 
 <style scoped>
 .admin-parts-page {
-  padding: 0;
+  padding: 1rem;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.page-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  color: #2c3e50;
+  margin-bottom: 1rem;
 }
 
 .header-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .parts-card {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
 }
 
 .loading-state {
