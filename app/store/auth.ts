@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', {
     /**
      * 백엔드에 사용자 정보 동기화
      */
-    async syncUserToBackend(uid: string, provider: string) {
+    async syncUserToBackend(idToken: string, provider: string) {
       const config = useRuntimeConfig()
 
       try {
@@ -45,7 +45,7 @@ export const useAuthStore = defineStore('auth', {
             'Content-Type': 'application/json',
           },
           body: {
-            uid: uid,
+            id_token: idToken,
             provider: provider,
           },
         })
@@ -95,7 +95,7 @@ export const useAuthStore = defineStore('auth', {
         setAnalyticsUserId(firebaseUser.uid)
 
         // 백엔드에 사용자 정보 동기화 (Firestore → PostgreSQL)
-        await this.syncUserToBackend(firebaseUser.uid, 'email')
+        await this.syncUserToBackend(idToken, 'email')
 
         return { user: this.user, token: idToken }
       } catch (error: any) {
@@ -149,7 +149,7 @@ export const useAuthStore = defineStore('auth', {
         })
 
         // 백엔드에 사용자 정보 동기화 (Firestore → PostgreSQL)
-        await this.syncUserToBackend(firebaseUser.uid, 'email')
+        await this.syncUserToBackend(idToken, 'email')
 
         return { user: this.user, token: idToken }
       } catch (error: any) {
@@ -173,6 +173,10 @@ export const useAuthStore = defineStore('auth', {
 
         // Google로 로그인
         const userCredential = await firebaseGoogleSignIn()
+        if (!userCredential) {
+          // 팝업 닫힘 등으로 인증 실패 시 이후 로직 실행 중단
+          return
+        }
         const firebaseUser = userCredential.user
 
         // ID 토큰 가져오기
@@ -212,10 +216,16 @@ export const useAuthStore = defineStore('auth', {
         })
 
         // 백엔드에 사용자 정보 동기화 (Firestore → PostgreSQL)
-        await this.syncUserToBackend(firebaseUser.uid, 'google')
+        await this.syncUserToBackend(idToken, 'google')
 
         return { user: this.user, token: idToken, isNewUser }
       } catch (error: any) {
+        if (error.code === 'auth/popup-closed-by-user') {
+          // 팝업 닫힘은 사용자 알림에서 제외, 콘솔에만 남김
+          console.warn('Google 로그인 창이 닫혔습니다.')
+          this.error = null
+          return
+        }
         this.error = error.message || 'Google 로그인 중 오류가 발생했습니다.'
         throw error
       } finally {

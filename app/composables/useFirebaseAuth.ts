@@ -77,6 +77,11 @@ export const useFirebaseAuth = () => {
       const userCredential = await signInWithPopup($firebaseAuth, provider)
       return userCredential
     } catch (error: any) {
+      if (error.code === 'auth/popup-closed-by-user') {
+        // 팝업을 닫은 경우 콘솔에만 남김
+        console.warn('Google 로그인 창이 닫혔습니다.')
+        return Promise.reject(error)
+      }
       console.error('Google 로그인 오류:', error)
       throw new Error(getFirebaseErrorMessage(error.code))
     }
