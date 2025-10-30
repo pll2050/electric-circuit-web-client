@@ -18,9 +18,9 @@ export const useApi = () => {
     const url = `${baseURL}${endpoint}`
 
     // 기본 헤더 설정
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...(options.headers || {}),
+      ...(options.headers as Record<string, string> || {}),
     }
 
     // 토큰이 있으면 Authorization 헤더 추가

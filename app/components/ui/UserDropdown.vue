@@ -15,7 +15,7 @@
       </div>
       
       <!-- 사용자 이름 -->
-      <span class="text-sm font-medium text-gray-700 max-w-32 truncate">{{ user?.displayName || user?.email }}</span>
+      <span class="text-sm font-bold text-gray-700 max-w-32 truncate">{{ user?.displayName || user?.email }}</span>
       
       <!-- 드롭다운 아이콘 -->
       <svg
@@ -53,7 +53,7 @@
                 {{ getUserInitial }}
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">{{ user?.displayName || '사용자' }}</p>
+                <p class="text-sm font-bold text-gray-900 truncate">{{ user?.displayName || '사용자' }}</p>
                 <p class="text-xs text-gray-500 truncate">{{ user?.email }}</p>
               </div>
             </div>

@@ -352,7 +352,7 @@ export const useDrawingTemplate = () => {
       A1: { width: 3174, height: 2245 }
     }
 
-    const { width, height } = sizes[pageSize] || sizes.A3
+    const { width, height } = (sizes[pageSize] ?? sizes.A3)!
 
     // Outer border
     const outerBorder = new joint.shapes.standard.Rectangle({
