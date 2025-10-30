@@ -54,9 +54,22 @@ export default defineNuxtConfig({
     typeCheck: false,
   },
 
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag === 'model-viewer',
+    },
+  },
+
   vite: {
     optimizeDeps: {
       include: ['@joint/core', '@joint/plus', '@babylonjs/core', '@babylonjs/loaders']
-    }
+    },
+    server: {
+      headers: {
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'Cross-Origin-Embedder-Policy': 'require-corp'
+      }
+    },
+    assetsInclude: ['**/*.wasm']
   }
 })

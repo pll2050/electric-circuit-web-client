@@ -4,6 +4,7 @@
     <ul class="menu">
       <li><a href="/admin">Dashboard</a></li>
       <li><a href="/admin/user">Users</a></li>
+      <li><a href="/admin/parts">Parts</a></li>
       <li><a href="/admin/settings">Settings</a></li>
     </ul>
   </aside>
@@ -20,7 +21,11 @@
   color: #fff;
   padding: 1rem;
   z-index: 1000;
-  position: relative;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
 }
 
 .sidebar-title {

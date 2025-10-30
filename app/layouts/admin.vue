@@ -23,11 +23,12 @@ import AdminSidebar from '~/components/AdminSidebar.vue';
 
 .content {
   flex: 1;
-  padding: 1rem;
   margin-left: 250px;
+  background-color: #f5f5f5;
 }
 
 .main-content {
-  padding: 1rem;
+  padding: 0;
+  max-width: 100%;
 }
 </style>
