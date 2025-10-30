@@ -218,6 +218,7 @@ import type { PartData } from '~/types/partXml'
 definePageMeta({
   layout: 'admin',
   middleware: 'auth',
+  title: '부품 관리 - Electric Circuit Web'
 })
 
 const toast = useToast()

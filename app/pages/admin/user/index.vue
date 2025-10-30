@@ -230,7 +230,8 @@ onMounted(() => {
 })
 
 definePageMeta({
-  layout: 'admin'
+  layout: 'admin',
+  title: '사용자 관리 - Electric Circuit Web'
 })
 </script>
 

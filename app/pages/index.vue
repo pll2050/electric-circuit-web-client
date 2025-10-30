@@ -58,6 +58,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'default'
+  layout: 'default',
+  title: '홈 - Electric Circuit Web'
 })
 </script>
