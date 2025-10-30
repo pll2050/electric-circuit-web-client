@@ -271,7 +271,7 @@ import { useAuthStore } from '~/store/auth'
 import { useToast } from 'primevue/usetoast'
 
 definePageMeta({
-  middleware: 'auth'
+  title: '사용자 정보'
 })
 
 const authStore = useAuthStore()
@@ -394,6 +394,6 @@ const formatDate = (date: Date) => {
 
 // 페이지 타이틀 설정
 useHead({
-  title: '사용자 정보 - Electric Circuit Web'
+  title: '사용자 정보'
 })
 </script>

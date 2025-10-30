@@ -9,6 +9,14 @@
 </template>
 
 <script setup lang="ts">
-import AppHeader from '~/components/AppHeader.vue'
-import AppFooter from '~/components/AppFooter.vue'
+import AppHeader from '~/components/AppHeader.vue';
+import AppFooter from '~/components/AppFooter.vue';
+import { useRoute } from '#app';
+import { useHead } from '@unhead/vue';
+
+const route = useRoute();
+
+useHead({
+  title: route.meta.title?`${route.meta.title} - Electric Circuit Web`:'Electric Circuit Web',
+});
 </script>

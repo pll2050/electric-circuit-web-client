@@ -2,10 +2,6 @@
   <BaseLayout title="사용자 관리 - Electric Circuit Web">
     <div class="user-page">
       <div class="page-header">
-        <div>
-          <h1 class="page-title">User Management</h1>
-          <p class="page-subtitle">Manage all registered users</p>
-        </div>
         <Button
           icon="pi pi-refresh"
           label="Refresh"
@@ -234,7 +230,7 @@ onMounted(() => {
 
 definePageMeta({
   layout: 'admin',
-  title: '사용자 관리 - Electric Circuit Web'
+  title: '사용자 관리'
 })
 </script>
 

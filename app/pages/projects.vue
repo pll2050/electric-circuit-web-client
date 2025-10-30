@@ -84,7 +84,8 @@ onMounted(async () => {
 })
 
 definePageMeta({
-  layout: 'default'
+  layout: 'default',
+  title: '프로젝트'
 })
 
 // Sample projects data

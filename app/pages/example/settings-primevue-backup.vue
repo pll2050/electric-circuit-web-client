@@ -319,7 +319,8 @@ import { useToast } from 'primevue/usetoast'
 
 // 인증 체크
 definePageMeta({
-  middleware: 'auth'
+  middleware: 'auth',
+  title: 'PrimeVue 설정 백업'
 })
 
 const authStore = useAuthStore()

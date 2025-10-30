@@ -206,6 +206,7 @@ import { useAuthStore } from '~/store/auth'
 
 // 페이지 메타데이터
 definePageMeta({
+  title: '회원가입',
   layout: false,
 })
 

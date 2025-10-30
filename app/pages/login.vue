@@ -169,7 +169,7 @@ import { useRouter } from 'vue-router'
 // 페이지 메타데이터
 definePageMeta({
   layout: false,
-  title: '로그인 - Electric Circuit Web'
+  title: '로그인'
 })
 
 const authStore = useAuthStore()

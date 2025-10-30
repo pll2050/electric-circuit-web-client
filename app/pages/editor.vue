@@ -227,7 +227,8 @@ import LayoutLibraryModal from '~/components/LayoutLibraryModal.vue'
 import { useAuthStore } from '~/store/auth'
 
 definePageMeta({
-  layout: false
+  layout: false,
+  title: '에디터'
 })
 
 // 인증 체크

@@ -1,7 +1,7 @@
 <template>
   <div class="base-layout">
-    <header class="title">{{ title }}</header>
     <main class="content">
+      <div class="menu-title">{{ title }}</div>
       <slot></slot>
     </main>
   </div>
@@ -21,8 +21,8 @@ defineProps({
   padding: 1rem;
 }
 
-.title {
-  font-size: 2rem;
+.menu-title {
+  font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
 }

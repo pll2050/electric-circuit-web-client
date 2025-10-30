@@ -339,6 +339,7 @@ import { useToast } from 'primevue/usetoast'
 
 // 인증 체크
 definePageMeta({
+  title: '설정',
   middleware: 'auth'
 })
 

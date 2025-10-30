@@ -335,6 +335,7 @@
 import { useAuthStore } from '~/store/auth'
 
 definePageMeta({
+  title: '설정',
   middleware: 'auth'
 })
 
@@ -469,6 +470,6 @@ const showToast = (message: string) => {
 
 // 페이지 타이틀 설정
 useHead({
-  title: '설정 - Electric Circuit Web'
+  title: '설정'
 })
 </script>

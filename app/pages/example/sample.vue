@@ -52,7 +52,8 @@ import { ref } from 'vue';
 const fontSize = ref(16);
 
 definePageMeta({
-  layout: 'default'
+  layout: 'default',
+  title: '샘플 페이지'
 });
 </script>
 
