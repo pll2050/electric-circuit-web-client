@@ -8,10 +8,11 @@
     <div class="form-grid">
       <div class="form-field">
         <label for="symbolType">심볼 타입</label>
-        <InputText
+        <Dropdown
           id="symbolType"
           v-model="modelValue.type"
-          placeholder="예: standard.Rectangle"
+          :options="symbolTypes"
+          placeholder="심볼 타입 선택"
         />
       </div>
 
@@ -54,8 +55,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
-import InputText from 'primevue/inputtext'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
+import Dropdown from 'primevue/dropdown'
 import InputNumber from 'primevue/inputnumber'
 import Textarea from 'primevue/textarea'
 import Message from 'primevue/message'
@@ -72,18 +73,154 @@ const symbolCanvas = ref<HTMLDivElement | null>(null)
 const symbolAttrsJson = ref('{}')
 const symbolAttrsError = ref('')
 
-onMounted(() => {
+// 사용 가능한 심볼 타입
+const symbolTypes = [
+  'standard.Rectangle',
+  'standard.Circle',
+  'standard.Ellipse',
+  'standard.Polygon',
+  'standard.Polyline',
+  'standard.Path'
+]
+
+// JointJS 변수들
+let joint: any = null
+let graph: any = null
+let paper: any = null
+
+onMounted(async () => {
   symbolAttrsJson.value = JSON.stringify(modelValue.value.attrs, null, 2)
+
+  // JointJS 초기화
+  await initializeCanvas()
 })
+
+onUnmounted(() => {
+  // 정리
+  if (paper) {
+    paper.remove()
+  }
+})
+
+async function initializeCanvas() {
+  if (!symbolCanvas.value) {
+    console.error('Canvas container not found')
+    return
+  }
+
+  try {
+    // @joint/plus 로드
+    joint = await import('@joint/plus')
+    console.log('JointJS Plus loaded successfully')
+
+    // Graph 생성
+    graph = new joint.dia.Graph({}, {
+      cellNamespace: joint.shapes
+    })
+
+    // Paper 생성
+    paper = new joint.dia.Paper({
+      el: symbolCanvas.value,
+      model: graph,
+      width: symbolCanvas.value.clientWidth || 600,
+      height: 300,
+      gridSize: 10,
+      drawGrid: {
+        name: 'dot',
+        args: { color: '#e5e7eb', thickness: 1 }
+      },
+      background: {
+        color: '#ffffff'
+      },
+      cellViewNamespace: joint.shapes,
+      interactive: false // 미리보기는 편집 불가
+    })
+
+    console.log('Paper created successfully')
+
+    // 초기 심볼 렌더링
+    renderSymbol()
+  } catch (error) {
+    console.error('Failed to initialize JointJS canvas:', error)
+  }
+}
+
+function renderSymbol() {
+  if (!graph || !joint) return
+
+  // 기존 도형 제거
+  graph.clear()
+
+  try {
+    const { type, size, attrs } = modelValue.value
+
+    // 심볼 타입에 따라 도형 생성
+    let shape: any
+
+    if (type === 'standard.Rectangle' || !type) {
+      shape = new joint.shapes.standard.Rectangle({
+        position: { x: 50, y: 50 },
+        size: { width: size.width || 80, height: size.height || 60 },
+        attrs: attrs || {
+          body: {
+            fill: '#ffffff',
+            stroke: '#000000',
+            strokeWidth: 2
+          },
+          label: {
+            text: 'Symbol',
+            fontSize: 14,
+            fill: '#000000'
+          }
+        }
+      })
+    } else if (type === 'standard.Circle') {
+      shape = new joint.shapes.standard.Circle({
+        position: { x: 50, y: 50 },
+        size: { width: size.width || 80, height: size.height || 80 },
+        attrs: attrs
+      })
+    } else if (type === 'standard.Ellipse') {
+      shape = new joint.shapes.standard.Ellipse({
+        position: { x: 50, y: 50 },
+        size: { width: size.width || 80, height: size.height || 60 },
+        attrs: attrs
+      })
+    } else {
+      // 기본값으로 Rectangle 사용
+      shape = new joint.shapes.standard.Rectangle({
+        position: { x: 50, y: 50 },
+        size: { width: size.width || 80, height: size.height || 60 },
+        attrs: attrs
+      })
+    }
+
+    graph.addCell(shape)
+
+    // 중앙 정렬
+    if (paper) {
+      paper.scaleContentToFit({ padding: 20 })
+    }
+  } catch (error) {
+    console.error('Failed to render symbol:', error)
+  }
+}
 
 watch(() => modelValue.value.attrs, (newAttrs) => {
   symbolAttrsJson.value = JSON.stringify(newAttrs, null, 2)
+  renderSymbol() // 속성 변경 시 다시 렌더링
+}, { deep: true })
+
+watch(() => [modelValue.value.type, modelValue.value.size], () => {
+  renderSymbol() // 타입이나 크기 변경 시 다시 렌더링
 }, { deep: true })
 
 function updateSymbolAttrs() {
   try {
-    modelValue.value.attrs = JSON.parse(symbolAttrsJson.value)
+    const parsed = JSON.parse(symbolAttrsJson.value)
+    modelValue.value.attrs = parsed
     symbolAttrsError.value = ''
+    renderSymbol() // JSON 업데이트 후 다시 렌더링
   } catch (e) {
     symbolAttrsError.value = 'JSON 형식이 올바르지 않습니다.'
   }
