@@ -84,7 +84,8 @@ const symbolTypes = [
 ]
 
 // JointJS 변수들
-let joint: any = null
+let dia: any = null
+let shapes: any = null
 let graph: any = null
 let paper: any = null
 
@@ -109,17 +110,19 @@ async function initializeCanvas() {
   }
 
   try {
-    // @joint/plus 로드
-    joint = await import('@joint/plus')
+    // @joint/plus에서 필요한 모듈만 로드
+    const joint = await import('@joint/plus')
+    dia = joint.dia
+    shapes = joint.shapes
     console.log('JointJS Plus loaded successfully')
 
     // Graph 생성
-    graph = new joint.dia.Graph({}, {
-      cellNamespace: joint.shapes
+    graph = new dia.Graph({}, {
+      cellNamespace: shapes
     })
 
     // Paper 생성
-    paper = new joint.dia.Paper({
+    paper = new dia.Paper({
       el: symbolCanvas.value,
       model: graph,
       width: symbolCanvas.value.clientWidth || 600,
@@ -132,7 +135,7 @@ async function initializeCanvas() {
       background: {
         color: '#ffffff'
       },
-      cellViewNamespace: joint.shapes,
+      cellViewNamespace: shapes,
       interactive: false // 미리보기는 편집 불가
     })
 
@@ -146,7 +149,7 @@ async function initializeCanvas() {
 }
 
 function renderSymbol() {
-  if (!graph || !joint) return
+  if (!graph || !shapes) return
 
   // 기존 도형 제거
   graph.clear()
@@ -158,7 +161,7 @@ function renderSymbol() {
     let shape: any
 
     if (type === 'standard.Rectangle' || !type) {
-      shape = new joint.shapes.standard.Rectangle({
+      shape = new shapes.standard.Rectangle({
         position: { x: 50, y: 50 },
         size: { width: size.width || 80, height: size.height || 60 },
         attrs: attrs || {
@@ -175,20 +178,20 @@ function renderSymbol() {
         }
       })
     } else if (type === 'standard.Circle') {
-      shape = new joint.shapes.standard.Circle({
+      shape = new shapes.standard.Circle({
         position: { x: 50, y: 50 },
         size: { width: size.width || 80, height: size.height || 80 },
         attrs: attrs
       })
     } else if (type === 'standard.Ellipse') {
-      shape = new joint.shapes.standard.Ellipse({
+      shape = new shapes.standard.Ellipse({
         position: { x: 50, y: 50 },
         size: { width: size.width || 80, height: size.height || 60 },
         attrs: attrs
       })
     } else {
       // 기본값으로 Rectangle 사용
-      shape = new joint.shapes.standard.Rectangle({
+      shape = new shapes.standard.Rectangle({
         position: { x: 50, y: 50 },
         size: { width: size.width || 80, height: size.height || 60 },
         attrs: attrs
