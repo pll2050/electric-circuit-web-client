@@ -9,16 +9,75 @@
     <div class="shape-toolbar">
       <h4>도형 추가</h4>
       <div class="shape-buttons">
-        <Button
+        <button
           v-for="shapeType in shapeTypes"
           :key="shapeType.value"
-          :label="shapeType.label"
-          :icon="shapeType.icon"
           @click="addShape(shapeType.value)"
-          outlined
-          size="small"
-          class="shape-btn"
-        />
+          class="shape-icon-btn"
+          :title="shapeType.label"
+        >
+          <svg width="32" height="32" viewBox="0 0 32 32" class="shape-icon">
+            <!-- 사각형 -->
+            <rect
+              v-if="shapeType.value === 'standard.Rectangle'"
+              x="6"
+              y="10"
+              width="20"
+              height="12"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <!-- 원 -->
+            <circle
+              v-else-if="shapeType.value === 'standard.Circle'"
+              cx="16"
+              cy="16"
+              r="10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <!-- 타원 -->
+            <ellipse
+              v-else-if="shapeType.value === 'standard.Ellipse'"
+              cx="16"
+              cy="16"
+              rx="12"
+              ry="8"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <!-- 다각형 (다이아몬드) -->
+            <polygon
+              v-else-if="shapeType.value === 'standard.Polygon'"
+              points="16,6 26,16 16,26 6,16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <!-- 선 (꺾은선) -->
+            <polyline
+              v-else-if="shapeType.value === 'standard.Polyline'"
+              points="4,20 12,8 20,16 28,4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <!-- 경로 (베지어 곡선) -->
+            <path
+              v-else-if="shapeType.value === 'standard.Path'"
+              d="M 4,16 Q 8,6 16,16 T 28,16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -73,7 +132,6 @@
 
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from 'vue'
-import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'
 import InputNumber from 'primevue/inputnumber'
 import Textarea from 'primevue/textarea'
@@ -423,11 +481,42 @@ function addShape(shapeType: string) {
 .shape-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
-.shape-btn {
-  min-width: 90px;
+.shape-icon-btn {
+  width: 48px;
+  height: 48px;
+  padding: 8px;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shape-icon-btn:hover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+}
+
+.shape-icon-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.shape-icon {
+  color: #2c3e50;
+  transition: color 0.2s ease;
+}
+
+.shape-icon-btn:hover .shape-icon {
+  color: #3b82f6;
 }
 
 .symbol-preview {
