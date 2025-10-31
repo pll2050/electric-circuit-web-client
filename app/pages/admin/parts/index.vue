@@ -186,7 +186,7 @@
       </Dialog>
 
       <!-- 부품 추가/수정 모달 -->
-      <PartEditorDialog
+      <PartEditorModal
         v-model:visible="editorVisible"
         :partData="editingPart"
         @save="handlePartSave"
@@ -210,7 +210,7 @@ import Dialog from 'primevue/dialog'
 import { useToast } from 'primevue/usetoast'
 import { useAdminParts } from '~/composables/admin/useAdminParts'
 import type { PartListItem } from '~/composables/admin/useAdminParts'
-import PartEditorDialog from '~/components/admin/parts/PartEditorDialog.vue'
+import PartEditorModal from '~/components/admin/parts/PartEditorModal.vue'
 import type { PartData } from '~/types/partXml'
 
 // 관리자 레이아웃 사용

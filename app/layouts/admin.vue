@@ -14,20 +14,11 @@
 
 <script setup>
 import AdminSidebar from '~/components/layout/admin/Sidebar.vue';
-import { useHead } from '@unhead/vue';
-import { useRoute } from '#app';
-
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-});
 
 const route = useRoute();
 
 useHead({
-  title: `${route.meta.title || title} - Electric Circuit Web`,
+  title: `${route.meta.title || '관리자'} - Electric Circuit Web`,
 });
 </script>
 
