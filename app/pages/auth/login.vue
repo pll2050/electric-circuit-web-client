@@ -123,7 +123,7 @@
       <div class="mt-6 text-center">
         <p class="text-sm text-gray-600">
           계정이 없으신가요?
-          <NuxtLink to="/register" class="font-medium text-blue-600 hover:text-blue-500">
+          <NuxtLink to="/auth/register" class="font-medium text-blue-600 hover:text-blue-500">
             회원가입
           </NuxtLink>
         </p>

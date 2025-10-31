@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import BaseLayout from '@/components/BaseLayout.vue';
+import BaseLayout from '@/components/layout/admin/BaseLayout.vue';
 
 definePageMeta({
   layout: 'admin',

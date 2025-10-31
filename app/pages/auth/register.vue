@@ -190,7 +190,7 @@
       <div class="mt-6 text-center">
         <p class="text-sm text-gray-600">
           이미 계정이 있으신가요?
-          <NuxtLink to="/login" class="font-medium text-blue-600 hover:text-blue-500">
+          <NuxtLink to="/auth/login" class="font-medium text-blue-600 hover:text-blue-500">
             로그인
           </NuxtLink>
         </p>

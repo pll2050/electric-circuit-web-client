@@ -142,12 +142,12 @@ const closeDropdown = () => {
 // 페이지 이동 함수
 const navigateToProfile = () => {
   closeDropdown()
-  router.push('/profile')
+  router.push('/user/profile')
 }
 
 const navigateToSettings = () => {
   closeDropdown()
-  router.push('/settings')
+  router.push('/user/settings')
 }
 
 // 로그아웃 처리

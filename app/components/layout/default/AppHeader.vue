@@ -12,7 +12,7 @@
         </div>
         <div class="flex items-center gap-4">
           <template v-if="authStore.isLoggedIn">
-            <UiUserDropdown :user="authStore.user" @logout="handleLogout" />
+            <LayoutDefaultUserDropdown :user="authStore.user" @logout="handleLogout" />
           </template>
           <template v-else>
             <NuxtLink to="/login" class="px-4 py-2 text-sm text-blue-600 bg-white rounded-lg hover:bg-gray-100 transition-colors">로그인</NuxtLink>

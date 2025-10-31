@@ -6,7 +6,7 @@
       <p class="text-lg mb-8">Revolutionize your workflow with cutting-edge tools for circuit design and simulation.</p>
       <div class="flex justify-center gap-4">
         <NuxtLink
-          to="/editor"
+          to="/user/editor"
           class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition"
         >
           Get Started

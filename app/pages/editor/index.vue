@@ -221,9 +221,9 @@ import ComponentPalette from '~/components/editor/ComponentPalette.vue'
 import CircuitCanvas from '~/components/editor/CircuitCanvas.vue'
 import StatusBar from '~/components/editor/StatusBar.vue'
 import PropertiesPanel from '~/components/editor/PropertiesPanel.vue'
-import ComponentLibraryModal from '~/components/ComponentLibraryModal.vue'
-import ProjectSettingsModal from '~/components/ProjectSettingsModal.vue'
-import LayoutLibraryModal from '~/components/LayoutLibraryModal.vue'
+import ComponentLibraryModal from '~/components/editor/ComponentLibraryModal.vue';
+import ProjectSettingsModal from '~/components/editor/ProjectSettingsModal.vue';
+import LayoutLibraryModal from '~/components/editor/LayoutLibraryModal.vue';
 import { useAuthStore } from '~/store/auth'
 
 definePageMeta({

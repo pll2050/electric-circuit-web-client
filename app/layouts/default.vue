@@ -9,8 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import AppHeader from '~/components/AppHeader.vue';
-import AppFooter from '~/components/AppFooter.vue';
+import AppHeader from '~/components/layout/default/AppHeader.vue';
+import AppFooter from '~/components/layout/default/AppFooter.vue';
 import { useRoute } from '#app';
 import { useHead } from '@unhead/vue';
 

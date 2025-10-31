@@ -42,7 +42,7 @@
             :value="parts"
             :globalFilter="globalFilter"
             paginator
-            rows="10"
+            :rows="10"
             :rowsPerPageOptions="[10, 20, 50]"
           >
             <template #header>
@@ -196,7 +196,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseLayout from '@/components/BaseLayout.vue'
+import BaseLayout from '@/components/layout/admin/BaseLayout.vue'
 import { ref, onMounted } from 'vue'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
@@ -210,7 +210,7 @@ import Dialog from 'primevue/dialog'
 import { useToast } from 'primevue/usetoast'
 import { useAdminParts } from '~/composables/admin/useAdminParts'
 import type { PartListItem } from '~/composables/admin/useAdminParts'
-import PartEditorDialog from '~/components/admin/PartEditorDialog.vue'
+import PartEditorDialog from '~/components/admin/parts/PartEditorDialog.vue'
 import type { PartData } from '~/types/partXml'
 
 // 관리자 레이아웃 사용

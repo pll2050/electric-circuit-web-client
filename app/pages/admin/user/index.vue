@@ -141,7 +141,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseLayout from '@/components/BaseLayout.vue'
+import BaseLayout from '@/components/layout/admin/BaseLayout.vue'
 import { ref, onMounted } from 'vue'
 import { useAdminUsers, type AdminUser } from '~/composables/admin/useAdminUsers'
 import Button from 'primevue/button'
@@ -184,6 +184,9 @@ const getInitials = (name: string): string => {
   if (!name) return '?'
   const parts = name.split(' ')
   if (parts.length >= 2) {
+    if (!parts || parts.length < 2 || typeof parts[0] !== 'string' || typeof parts[1] !== 'string' || !parts[0][0] || !parts[1][0]) {
+      throw new Error('Invalid parts array or elements are not valid strings with at least one character')
+    }
     return (parts[0][0] + parts[1][0]).toUpperCase()
   }
   return name.substring(0, 2).toUpperCase()

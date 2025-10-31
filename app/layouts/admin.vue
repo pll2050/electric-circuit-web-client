@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import AdminSidebar from '~/components/AdminSidebar.vue';
+import AdminSidebar from '~/components/layout/admin/Sidebar.vue';
 import { useHead } from '@unhead/vue';
 import { useRoute } from '#app';
 
