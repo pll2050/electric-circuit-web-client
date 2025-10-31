@@ -323,7 +323,7 @@ const handleGoogleSignup = async () => {
     const result = await authStore.signInWithGoogle()
 
     // 로그인 성공 시 프로젝트 페이지로 이동
-    if (result.isNewUser) {
+    if (result?.isNewUser) {
       console.log('Google 계정으로 신규 가입 완료!')
     } else {
       console.log('기존 Google 계정으로 로그인!')

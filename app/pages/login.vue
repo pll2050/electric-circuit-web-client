@@ -241,7 +241,7 @@ const handleGoogleLogin = async () => {
     const result = await authStore.signInWithGoogle()
 
     // 로그인 성공 시 프로젝트 페이지로 이동
-    if (result.isNewUser) {
+    if (result?.isNewUser) {
       console.log('신규 사용자 가입 완료!')
     }
     router.push('/projects')
