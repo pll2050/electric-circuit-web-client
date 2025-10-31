@@ -5,6 +5,23 @@
       JointJS 도형을 정의하여 회로도에서 사용할 심볼을 생성합니다.
     </Message>
 
+    <!-- 도형 툴바 -->
+    <div class="shape-toolbar">
+      <h4>도형 추가</h4>
+      <div class="shape-buttons">
+        <Button
+          v-for="shapeType in shapeTypes"
+          :key="shapeType.value"
+          :label="shapeType.label"
+          :icon="shapeType.icon"
+          @click="addShape(shapeType.value)"
+          outlined
+          size="small"
+          class="shape-btn"
+        />
+      </div>
+    </div>
+
     <div class="form-grid">
       <div class="form-field">
         <label for="symbolType">심볼 타입</label>
@@ -56,6 +73,7 @@
 
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from 'vue'
+import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'
 import InputNumber from 'primevue/inputnumber'
 import Textarea from 'primevue/textarea'
@@ -73,7 +91,17 @@ const symbolCanvas = ref<HTMLDivElement | null>(null)
 const symbolAttrsJson = ref('{}')
 const symbolAttrsError = ref('')
 
-// 사용 가능한 심볼 타입
+// 도형 타입 정의 (툴바용)
+const shapeTypes = [
+  { label: '사각형', value: 'standard.Rectangle', icon: 'pi pi-stop' },
+  { label: '원', value: 'standard.Circle', icon: 'pi pi-circle' },
+  { label: '타원', value: 'standard.Ellipse', icon: 'pi pi-circle' },
+  { label: '다각형', value: 'standard.Polygon', icon: 'pi pi-star' },
+  { label: '선', value: 'standard.Polyline', icon: 'pi pi-minus' },
+  { label: '경로', value: 'standard.Path', icon: 'pi pi-pencil' }
+]
+
+// 사용 가능한 심볼 타입 (드롭다운용)
 const symbolTypes = [
   'standard.Rectangle',
   'standard.Circle',
@@ -126,7 +154,7 @@ async function initializeCanvas() {
       el: symbolCanvas.value,
       model: graph,
       width: symbolCanvas.value.clientWidth || 600,
-      height: 300,
+      height: 400,
       gridSize: 10,
       drawGrid: {
         name: 'dot',
@@ -136,7 +164,7 @@ async function initializeCanvas() {
         color: '#ffffff'
       },
       cellViewNamespace: shapes,
-      interactive: false // 미리보기는 편집 불가
+      interactive: true // 편집 가능하도록 변경
     })
 
     console.log('Paper created successfully')
@@ -228,6 +256,108 @@ function updateSymbolAttrs() {
     symbolAttrsError.value = 'JSON 형식이 올바르지 않습니다.'
   }
 }
+
+// 도형 추가 함수
+function addShape(shapeType: string) {
+  if (!graph || !shapes) return
+
+  try {
+    let shape: any
+    const defaultAttrs = {
+      body: {
+        fill: '#ffffff',
+        stroke: '#3b82f6',
+        strokeWidth: 2
+      },
+      label: {
+        text: '',
+        fontSize: 14,
+        fill: '#000000'
+      }
+    }
+
+    // 랜덤 위치 생성 (겹치지 않도록)
+    const randomX = Math.floor(Math.random() * 400) + 50
+    const randomY = Math.floor(Math.random() * 200) + 50
+
+    switch (shapeType) {
+      case 'standard.Rectangle':
+        shape = new shapes.standard.Rectangle({
+          position: { x: randomX, y: randomY },
+          size: { width: 80, height: 60 },
+          attrs: defaultAttrs
+        })
+        break
+      case 'standard.Circle':
+        shape = new shapes.standard.Circle({
+          position: { x: randomX, y: randomY },
+          size: { width: 80, height: 80 },
+          attrs: defaultAttrs
+        })
+        break
+      case 'standard.Ellipse':
+        shape = new shapes.standard.Ellipse({
+          position: { x: randomX, y: randomY },
+          size: { width: 100, height: 60 },
+          attrs: defaultAttrs
+        })
+        break
+      case 'standard.Polygon':
+        shape = new shapes.standard.Polygon({
+          position: { x: randomX, y: randomY },
+          size: { width: 80, height: 80 },
+          attrs: {
+            body: {
+              fill: '#ffffff',
+              stroke: '#3b82f6',
+              strokeWidth: 2,
+              refPoints: '0,10 10,0 20,10 10,20'
+            }
+          }
+        })
+        break
+      case 'standard.Polyline':
+        shape = new shapes.standard.Polyline({
+          position: { x: randomX, y: randomY },
+          size: { width: 100, height: 60 },
+          attrs: {
+            body: {
+              stroke: '#3b82f6',
+              strokeWidth: 2,
+              fill: 'none',
+              refPoints: '0,0 50,30 100,0'
+            }
+          }
+        })
+        break
+      case 'standard.Path':
+        shape = new shapes.standard.Path({
+          position: { x: randomX, y: randomY },
+          size: { width: 80, height: 80 },
+          attrs: {
+            body: {
+              stroke: '#3b82f6',
+              strokeWidth: 2,
+              fill: 'none',
+              refD: 'M 0 40 Q 40 0 80 40 T 160 40'
+            }
+          }
+        })
+        break
+      default:
+        shape = new shapes.standard.Rectangle({
+          position: { x: randomX, y: randomY },
+          size: { width: 80, height: 60 },
+          attrs: defaultAttrs
+        })
+    }
+
+    graph.addCell(shape)
+    console.log('Shape added:', shapeType)
+  } catch (error) {
+    console.error('Failed to add shape:', error)
+  }
+}
 </script>
 
 <style scoped>
@@ -275,18 +405,53 @@ function updateSymbolAttrs() {
   font-size: 0.85rem;
 }
 
+.shape-toolbar {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.shape-toolbar h4 {
+  margin: 0 0 0.75rem 0;
+  color: #2c3e50;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.shape-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.shape-btn {
+  min-width: 90px;
+}
+
 .symbol-preview {
   border: 1px solid #dee2e6;
   border-radius: 4px;
   background: #f8f9fa;
-  min-height: 300px;
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .canvas {
   width: 100%;
-  height: 300px;
+  height: 400px;
+}
+
+/* JointJS 요소 스타일 */
+:deep(.joint-element) {
+  cursor: move;
+}
+
+:deep(.joint-element:hover) {
+  filter: brightness(0.95);
 }
 </style>
