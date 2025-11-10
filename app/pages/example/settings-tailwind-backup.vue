@@ -317,7 +317,7 @@
       <h2 class="text-xl font-semibold text-gray-900 mb-2">로그인이 필요합니다</h2>
       <p class="text-gray-600 mb-4">설정을 변경하려면 로그인해주세요.</p>
       <NuxtLink
-        to="/login"
+        to="/auth/login"
         class="inline-flex items-center px-4 py-2 text-sm text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors"
       >
         로그인하기

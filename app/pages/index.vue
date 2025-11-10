@@ -47,7 +47,7 @@
       <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Workflow?</h2>
       <p class="text-lg mb-8">Join thousands of professionals using our platform to innovate and excel.</p>
       <NuxtLink
-        to="/register"
+        to="/auth/register"
         class="px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition"
       >
         Sign Up Now

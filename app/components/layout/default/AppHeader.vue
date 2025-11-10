@@ -15,8 +15,8 @@
             <LayoutDefaultUserDropdown :user="authStore.user" @logout="handleLogout" />
           </template>
           <template v-else>
-            <NuxtLink to="/login" class="px-4 py-2 text-sm text-blue-600 bg-white rounded-lg hover:bg-gray-100 transition-colors">로그인</NuxtLink>
-            <NuxtLink to="/register" class="px-4 py-2 text-sm text-white bg-blue-700 rounded-lg hover:bg-blue-800 transition-colors">회원가입</NuxtLink>
+            <NuxtLink to="/auth/login" class="px-4 py-2 text-sm text-blue-600 bg-white rounded-lg hover:bg-gray-100 transition-colors">로그인</NuxtLink>
+            <NuxtLink to="/auth/register" class="px-4 py-2 text-sm text-white bg-blue-700 rounded-lg hover:bg-blue-800 transition-colors">회원가입</NuxtLink>
           </template>
         </div>
       </div>
