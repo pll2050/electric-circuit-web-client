@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
       const config = useRuntimeConfig()
 
       try {
-        await $fetch(`${config.public.apiBaseUrl}/api/auth/signup`, {
+        await $fetch(`${config.public.apiBaseUrl}/auth/signup`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
