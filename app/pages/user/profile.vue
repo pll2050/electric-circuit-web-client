@@ -102,6 +102,18 @@
               />
             </div>
 
+            <!-- 전화번호 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">전화번호</label>
+              <InputText
+                v-model="editedPhoneNumber"
+                :readonly="!isEditing"
+                fluid
+                :class="{ 'bg-gray-50': !isEditing }"
+                placeholder="010-1234-5678"
+              />
+            </div>
+
             <!-- 프로필 URL -->
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">프로필 이미지 URL</label>
@@ -285,6 +297,7 @@ const showDeleteAccount = ref(false)
 
 // 편집 가능한 필드들
 const editedDisplayName = ref('')
+const editedPhoneNumber = ref('')
 const editedPhotoURL = ref('')
 
 // 사용자 이름의 첫 글자 가져오기
@@ -296,6 +309,7 @@ const getUserInitial = computed(() => {
 // 편집 시작
 const startEdit = () => {
   editedDisplayName.value = authStore.user?.displayName || ''
+  editedPhoneNumber.value = authStore.user?.phoneNumber || ''
   editedPhotoURL.value = authStore.user?.photoURL || ''
   isEditing.value = true
 }
@@ -304,6 +318,7 @@ const startEdit = () => {
 const cancelEdit = () => {
   isEditing.value = false
   editedDisplayName.value = ''
+  editedPhoneNumber.value = ''
   editedPhotoURL.value = ''
 }
 
@@ -313,13 +328,28 @@ const saveProfile = async () => {
 
   isSaving.value = true
   try {
-    // Firebase 프로필 업데이트 로직을 여기에 추가
-    // await updateProfile(authStore.user, {
-    //   displayName: editedDisplayName.value,
-    //   photoURL: editedPhotoURL.value || undefined
-    // })
+    const api = useApi()
 
-    // 임시로 성공 메시지만 표시
+    // 백엔드 API 호출하여 프로필 업데이트
+    const response = await api.put('/api/auth/update-profile', {
+      idToken: authStore.token,
+      displayName: editedDisplayName.value,
+      photoUrl: editedPhotoURL.value || null,
+      phoneNumber: editedPhoneNumber.value || null
+    })
+
+    // 로컬 사용자 정보 업데이트
+    if (authStore.user) {
+      authStore.user.displayName = editedDisplayName.value
+      authStore.user.photoURL = editedPhotoURL.value
+      authStore.user.phoneNumber = editedPhoneNumber.value
+
+      // 로컬 스토리지도 업데이트
+      if (process.client) {
+        localStorage.setItem('user_data', JSON.stringify(authStore.user))
+      }
+    }
+
     toast.add({
       severity: 'success',
       summary: '성공',
@@ -327,12 +357,12 @@ const saveProfile = async () => {
       life: 3000
     })
     isEditing.value = false
-  } catch (error) {
+  } catch (error: any) {
     console.error('프로필 업데이트 오류:', error)
     toast.add({
       severity: 'error',
       summary: '오류',
-      detail: '프로필 업데이트에 실패했습니다.',
+      detail: error.message || '프로필 업데이트에 실패했습니다.',
       life: 3000
     })
   } finally {
