@@ -1,5 +1,6 @@
 import type { PartData } from '~/types/partXml'
 import { partXmlConverter } from '~/utils/partXmlConverter'
+import { useApi } from '~/composables/useApi'
 
 export interface PartListItem {
   id: string
@@ -20,7 +21,7 @@ export const useAdminParts = () => {
    */
   const fetchPartsList = async (): Promise<PartListItem[]> => {
     try {
-      const data = await api.get<PartListItem[]>('/parts/list')
+      const data = await api.get<PartListItem[]>('/api/parts/list')
       return data
     } catch (error) {
       console.error('Failed to fetch parts list:', error)
@@ -33,7 +34,7 @@ export const useAdminParts = () => {
    */
   const fetchPartXml = async (id: string): Promise<string> => {
     try {
-      const xml = await api.get<string>(`/parts/${id}/xml`, {
+      const xml = await api.get<string>(`/api/parts/${id}/xml`, {
         headers: {
           'Accept': 'application/xml',
         },
@@ -70,7 +71,7 @@ export const useAdminParts = () => {
       }
 
       // 서버로 전송
-      const response = await api.post<{ id: string; partNumber: string }>('/parts', xml, {
+      const response = await api.post<{ id: string; partNumber: string }>('/api/parts', xml, {
         headers: {
           'Content-Type': 'application/xml',
         },
@@ -107,7 +108,7 @@ export const useAdminParts = () => {
         throw new Error('Invalid XML: ' + (validation.errors?.join(', ') || 'Unknown error'))
       }
 
-      await api.put(`/parts/${id}`, xml, {
+      await api.put(`/api/parts/${id}`, xml, {
         headers: {
           'Content-Type': 'application/xml',
         },
@@ -136,7 +137,7 @@ export const useAdminParts = () => {
    */
   const deletePart = async (id: string): Promise<void> => {
     try {
-      await api.delete(`/parts/${id}`)
+      await api.delete(`/api/parts/${id}`)
     } catch (error) {
       console.error('Failed to delete part:', error)
       throw error
@@ -182,7 +183,7 @@ export const useAdminParts = () => {
    */
   const searchPartsByCategory = async (category: string): Promise<PartListItem[]> => {
     try {
-      const data = await api.get<PartListItem[]>(`/parts/search?category=${encodeURIComponent(category)}`)
+      const data = await api.get<PartListItem[]>(`/api/parts/search?category=${encodeURIComponent(category)}`)
       return data
     } catch (error) {
       console.error('Failed to search parts by category:', error)
@@ -195,7 +196,7 @@ export const useAdminParts = () => {
    */
   const searchPartByNumber = async (partNumber: string): Promise<PartListItem | null> => {
     try {
-      const data = await api.get<PartListItem>(`/parts/search?partNumber=${encodeURIComponent(partNumber)}`)
+      const data = await api.get<PartListItem>(`/api/parts/search?partNumber=${encodeURIComponent(partNumber)}`)
       return data
     } catch (error) {
       console.error('Failed to search part by number:', error)

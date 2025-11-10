@@ -104,105 +104,6 @@
         </template>
       </Card>
 
-      <!-- 계정 설정 -->
-      <Card class="shadow-md">
-        <template #title>
-          <div class="flex items-center gap-2">
-            <i class="pi pi-user text-primary"></i>
-            <h3>계정 설정</h3>
-          </div>
-        </template>
-        <template #content>
-          <div class="space-y-6">
-            <!-- 프로필 정보 -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="field">
-                <label for="displayName" class="block text-sm font-medium mb-2">표시 이름</label>
-                <InputText
-                  id="displayName"
-                  v-model="profileData.displayName"
-                  placeholder="표시 이름을 입력하세요"
-                  fluid
-                />
-              </div>
-
-              <div class="field">
-                <label for="email" class="block text-sm font-medium mb-2">이메일</label>
-                <InputText
-                  id="email"
-                  v-model="profileData.email"
-                  disabled
-                  fluid
-                />
-              </div>
-            </div>
-
-            <!-- 비밀번호 변경 -->
-            <Divider align="left">
-              <div class="inline-flex items-center gap-2">
-                <i class="pi pi-key"></i>
-                <b>비밀번호 변경</b>
-              </div>
-            </Divider>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div class="field">
-                <label for="currentPassword" class="block text-sm font-medium mb-2">현재 비밀번호</label>
-                <Password
-                  id="currentPassword"
-                  v-model="passwordData.current"
-                  placeholder="현재 비밀번호"
-                  toggle-mask
-                  fluid
-                  :feedback="false"
-                />
-              </div>
-
-              <div class="field">
-                <label for="newPassword" class="block text-sm font-medium mb-2">새 비밀번호</label>
-                <Password
-                  id="newPassword"
-                  v-model="passwordData.new"
-                  placeholder="새 비밀번호"
-                  toggle-mask
-                  fluid
-                />
-              </div>
-
-              <div class="field">
-                <label for="confirmPassword" class="block text-sm font-medium mb-2">비밀번호 확인</label>
-                <Password
-                  id="confirmPassword"
-                  v-model="passwordData.confirm"
-                  placeholder="비밀번호 확인"
-                  toggle-mask
-                  :feedback="false"
-                  fluid
-                />
-              </div>
-            </div>
-
-            <div class="flex gap-3 pt-4">
-              <Button
-                label="프로필 업데이트"
-                icon="pi pi-save"
-                @click="updateProfile"
-                :loading="isUpdatingProfile"
-                size="small"
-              />
-              <Button
-                label="비밀번호 변경"
-                icon="pi pi-key"
-                severity="secondary"
-                @click="changePassword"
-                :loading="isChangingPassword"
-                size="small"
-              />
-            </div>
-          </div>
-        </template>
-      </Card>
-
       <!-- 에디터 설정 -->
       <Card class="shadow-md">
         <template #title>
@@ -253,33 +154,6 @@
           </div>
         </template>
       </Card>
-
-      <!-- 위험 영역 -->
-      <Card class="shadow-md border-l-4 border-l-red-500">
-        <template #title>
-          <div class="flex items-center gap-2 text-red-600">
-            <i class="pi pi-exclamation-triangle"></i>
-            <h3>위험 영역</h3>
-          </div>
-        </template>
-        <template #content>
-          <div class="space-y-4">
-            <div>
-              <h4 class="font-medium text-gray-900 mb-2">계정 삭제</h4>
-              <p class="text-sm text-gray-600 mb-4">
-                계정을 삭제하면 모든 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.
-              </p>
-              <Button
-                label="계정 삭제"
-                icon="pi pi-trash"
-                severity="danger"
-                variant="outlined"
-                @click="confirmDeleteAccount = true"
-              />
-            </div>
-          </div>
-        </template>
-      </Card>
     </div>
 
     <!-- 로그인되지 않은 상태 -->
@@ -293,43 +167,6 @@
         @click="$router.push('/login')"
       />
     </div>
-
-    <!-- 계정 삭제 확인 다이얼로그 -->
-    <Dialog
-      v-model:visible="confirmDeleteAccount"
-      modal
-      header="계정 삭제 확인"
-      :style="{ width: '450px' }"
-      class="mx-4"
-      :draggable="false"
-      :closable="false"
-    >
-      <div class="text-center">
-        <i class="pi pi-exclamation-triangle text-4xl text-red-500 mb-4"></i>
-        <p class="mb-4 text-lg font-medium">정말로 계정을 삭제하시겠습니까?</p>
-        <p class="text-sm text-muted-color mb-6">
-          이 작업은 되돌릴 수 없으며, 모든 데이터가 영구적으로 삭제됩니다.
-        </p>
-      </div>
-      <template #footer>
-        <div class="flex justify-end gap-3">
-          <Button
-            label="취소"
-            icon="pi pi-times"
-            severity="secondary"
-            variant="outlined"
-            @click="confirmDeleteAccount = false"
-          />
-          <Button
-            label="삭제"
-            icon="pi pi-trash"
-            severity="danger"
-            @click="deleteAccount"
-            :loading="isDeletingAccount"
-          />
-        </div>
-      </template>
-    </Dialog>
   </div>
 </template>
 
@@ -360,22 +197,6 @@ const settings = ref({
     autoSave: true
   }
 })
-
-const profileData = ref({
-  displayName: '',
-  email: ''
-})
-
-const passwordData = ref({
-  current: '',
-  new: '',
-  confirm: ''
-})
-
-const isUpdatingProfile = ref(false)
-const isChangingPassword = ref(false)
-const isDeletingAccount = ref(false)
-const confirmDeleteAccount = ref(false)
 
 // 옵션 데이터
 const languages = [
@@ -408,19 +229,8 @@ const themes = [
 
 // 컴포넌트 마운트 시 데이터 로드
 onMounted(() => {
-  loadUserData()
   loadSettings()
 })
-
-// 사용자 데이터 로드
-const loadUserData = () => {
-  if (authStore.user) {
-    profileData.value = {
-      displayName: authStore.user.displayName || '',
-      email: authStore.user.email || ''
-    }
-  }
-}
 
 // 설정 로드
 const loadSettings = () => {
@@ -461,92 +271,6 @@ const setTheme = (theme: string) => {
   settings.value.theme = theme
   saveSettings()
   // 실제 테마 적용 로직은 여기에 구현
-}
-
-// 프로필 업데이트
-const updateProfile = async () => {
-  isUpdatingProfile.value = true
-  try {
-    // 실제 프로필 업데이트 API 호출
-    await new Promise(resolve => setTimeout(resolve, 1000)) // 시뮬레이션
-    
-    toast.add({
-      severity: 'success',
-      summary: '프로필 업데이트 완료',
-      detail: '프로필이 성공적으로 업데이트되었습니다.',
-      life: 3000
-    })
-  } catch (error) {
-    console.error('프로필 업데이트 오류:', error)
-    toast.add({
-      severity: 'error',
-      summary: '업데이트 실패',
-      detail: '프로필 업데이트 중 오류가 발생했습니다.',
-      life: 3000
-    })
-  } finally {
-    isUpdatingProfile.value = false
-  }
-}
-
-// 비밀번호 변경
-const changePassword = async () => {
-  if (passwordData.value.new !== passwordData.value.confirm) {
-    toast.add({
-      severity: 'warn',
-      summary: '비밀번호 불일치',
-      detail: '새 비밀번호와 확인 비밀번호가 일치하지 않습니다.',
-      life: 3000
-    })
-    return
-  }
-
-  isChangingPassword.value = true
-  try {
-    // 실제 비밀번호 변경 API 호출
-    await new Promise(resolve => setTimeout(resolve, 1000)) // 시뮬레이션
-    
-    passwordData.value = { current: '', new: '', confirm: '' }
-    toast.add({
-      severity: 'success',
-      summary: '비밀번호 변경 완료',
-      detail: '비밀번호가 성공적으로 변경되었습니다.',
-      life: 3000
-    })
-  } catch (error) {
-    console.error('비밀번호 변경 오류:', error)
-    toast.add({
-      severity: 'error',
-      summary: '변경 실패',
-      detail: '비밀번호 변경 중 오류가 발생했습니다.',
-      life: 3000
-    })
-  } finally {
-    isChangingPassword.value = false
-  }
-}
-
-// 계정 삭제
-const deleteAccount = async () => {
-  isDeletingAccount.value = true
-  try {
-    // 실제 계정 삭제 API 호출
-    await new Promise(resolve => setTimeout(resolve, 2000)) // 시뮬레이션
-    
-    await authStore.logout()
-    navigateTo('/login')
-  } catch (error) {
-    console.error('계정 삭제 오류:', error)
-    toast.add({
-      severity: 'error',
-      summary: '삭제 실패',
-      detail: '계정 삭제 중 오류가 발생했습니다.',
-      life: 3000
-    })
-  } finally {
-    isDeletingAccount.value = false
-    confirmDeleteAccount.value = false
-  }
 }
 </script>
 
