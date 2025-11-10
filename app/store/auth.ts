@@ -35,22 +35,28 @@ export const useAuthStore = defineStore('auth', {
     /**
      * 백엔드에 사용자 정보 동기화
      */
-    async syncUserToBackend(idToken: string, provider: string) {
+    async syncUserToBackend(idToken: string, email: string, displayName: string) {
       const config = useRuntimeConfig()
 
       try {
-        await $fetch(`${config.public.apiBaseUrl}/auth/register`, {
+        await $fetch(`${config.public.apiBaseUrl}/api/auth/signup`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: {
-            id_token: idToken,
-            provider: provider,
+            idToken: idToken,
+            email: email,
+            displayName: displayName,
           },
         })
-        console.log('사용자 정보가 Firestore와 PostgreSQL에 저장되었습니다.')
-      } catch (error) {
+        console.log('사용자 정보가 PostgreSQL에 저장되었습니다.')
+      } catch (error: any) {
+        // 이미 존재하는 사용자인 경우는 에러가 아님
+        if (error?.data?.error === 'User already exists') {
+          console.log('이미 등록된 사용자입니다.')
+          return
+        }
         console.error('백엔드 동기화 오류:', error)
         // 동기화 실패는 로그만 남기고 계속 진행
       }
@@ -94,8 +100,8 @@ export const useAuthStore = defineStore('auth', {
         trackAuthEvent('login', 'email')
         setAnalyticsUserId(firebaseUser.uid)
 
-        // 백엔드에 사용자 정보 동기화 (Firestore → PostgreSQL)
-        await this.syncUserToBackend(idToken, 'email')
+        // 백엔드에 사용자 정보 동기화 (Firebase Auth → PostgreSQL)
+        await this.syncUserToBackend(idToken, firebaseUser.email || '', firebaseUser.displayName || '')
 
         return { user: this.user, token: idToken }
       } catch (error: any) {
@@ -148,8 +154,8 @@ export const useAuthStore = defineStore('auth', {
           email_verified: firebaseUser.emailVerified,
         })
 
-        // 백엔드에 사용자 정보 동기화 (Firestore → PostgreSQL)
-        await this.syncUserToBackend(idToken, 'email')
+        // 백엔드에 사용자 정보 동기화 (Firebase Auth → PostgreSQL)
+        await this.syncUserToBackend(idToken, email, displayName)
 
         return { user: this.user, token: idToken }
       } catch (error: any) {
@@ -215,8 +221,8 @@ export const useAuthStore = defineStore('auth', {
           provider: 'google',
         })
 
-        // 백엔드에 사용자 정보 동기화 (Firestore → PostgreSQL)
-        await this.syncUserToBackend(idToken, 'google')
+        // 백엔드에 사용자 정보 동기화 (Firebase Auth → PostgreSQL)
+        await this.syncUserToBackend(idToken, firebaseUser.email || '', firebaseUser.displayName || '')
 
         return { user: this.user, token: idToken, isNewUser }
       } catch (error: any) {
