@@ -7,11 +7,13 @@ module.exports = {
       instances: '2',
       env: {
         NODE_ENV: 'development',
-        PORT: 3000
+        PORT: 3000,
+        NODE_OPTIONS: '--max-old-space-size=4096'
       },
       env_production: {
         NODE_ENV: 'production',
-        PORT: 8080
+        PORT: 8080,
+        NODE_OPTIONS: '--max-old-space-size=4096'
       }
     }
   ]
