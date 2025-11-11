@@ -164,7 +164,7 @@
         label="로그인하기"
         icon="pi pi-sign-in"
         severity="info"
-        @click="$router.push('/login')"
+        @click="$router.push('/auth/login')"
       />
     </div>
   </div>

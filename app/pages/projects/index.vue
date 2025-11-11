@@ -7,7 +7,7 @@
           <p class="text-gray-600">저장된 회로 설계 프로젝트를 관리합니다</p>
         </div>
         <NuxtLink
-          to="/user/editor"
+          to="/editor"
           class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

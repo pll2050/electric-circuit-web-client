@@ -191,6 +191,6 @@ const cancelExit = () => {
 
 const handleLogout = async () => {
   await authStore.logout()
-  navigateTo('/login')
+  navigateTo('/auth/login')
 }
 </script>
