@@ -7,6 +7,17 @@ export default defineNuxtConfig({
 
   srcDir: 'app/',
 
+  server: {
+    host: '0.0.0.0'
+  },
+
+  nitro: {
+    externals: {
+      inline: ['@joint/plus'] // 또는 'exclude'로 조정
+    }
+  },
+
+
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',

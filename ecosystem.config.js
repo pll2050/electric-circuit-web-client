@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'nuxt4-app',
+      name: 'electric-server',
       script: '.output/server/index.mjs',
       exec_mode: 'cluster',
       instances: '2',
