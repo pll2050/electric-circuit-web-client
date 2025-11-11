@@ -15,7 +15,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
       const token = localStorage.getItem('auth_token')
       if (!token) {
         // 로그인 페이지로 리다이렉트
-        return navigateTo('/login')
+        return navigateTo('/auth/login')
       }
     }
   }

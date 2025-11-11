@@ -271,7 +271,7 @@
       <Button
         label="로그인하기"
         icon="pi pi-sign-in"
-        @click="$router.push('/login')"
+        @click="$router.push('/auth/login')"
       />
     </div>
 
@@ -514,7 +514,7 @@ const deleteAccount = async () => {
     await new Promise(resolve => setTimeout(resolve, 2000)) // 시뮬레이션
     
     await authStore.logout()
-    navigateTo('/login')
+    navigateTo('/auth/login')
   } catch (error) {
     console.error('계정 삭제 오류:', error)
     toast.add({

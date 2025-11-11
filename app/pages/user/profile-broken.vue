@@ -216,7 +216,7 @@
           <p class="text-gray-600 mb-4">사용자 정보를 확인하려면 로그인해주세요.</p>
           <Button
             label="로그인하기"
-            @click="$router.push('/login')"
+            @click="$router.push('/auth/login')"
           />
         </div>
       </template>

@@ -238,7 +238,7 @@ const router = useRouter()
 onMounted(async () => {
   await authStore.checkAuth()
   if (!authStore.isLoggedIn) {
-    router.push('/login')
+    router.push('/auth/login')
   }
 })
 

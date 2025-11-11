@@ -7,14 +7,26 @@ export default defineNuxtConfig({
 
   srcDir: 'app/',
 
-  server: {
-    host: '0.0.0.0'
+  // 개발 서버 설정
+  devServer: {
+    host: '0.0.0.0',
+    port: 3000
   },
 
+  // Nitro 설정 (프로덕션 빌드용)
   nitro: {
-    externals: {
-      inline: ['@joint/plus'] // 또는 'exclude'로 조정
+    experimental: {
+      wasm: true
     }
+  },
+
+  // JointJS Plus 관련 페이지만 클라이언트 사이드 렌더링
+  experimental: {
+    payloadExtraction: false
+  },
+
+  build: {
+    transpile: ['@joint/plus']
   },
 
 
@@ -81,6 +93,10 @@ export default defineNuxtConfig({
         'Cross-Origin-Embedder-Policy': 'require-corp'
       }
     },
-    assetsInclude: ['**/*.wasm']
+    assetsInclude: ['**/*.wasm'],
+    ssr: {
+      noExternal: ['@joint/plus'],
+      external: ['@joint/plus']
+    }
   }
 })
